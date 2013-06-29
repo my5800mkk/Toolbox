@@ -25,8 +25,14 @@ void CToolboxWindowBase::Initialize(WIN_HWND hWnd)
 		delete this;
 	}
 
+	// Create render context for this window handle.
+	// Contexts only work from within the editor, and allow for rendering onto different windows.
+	// Each context stores resolution independently.
 	if(gEnv->pRenderer->CreateContext(m_hWnd))
+	{
+		// New contexts are automatically activated, re-enable the primary one.
 		gEnv->pRenderer->MakeMainContextActive();
+	}
 
 	RECT workAreaRect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &workAreaRect, 0);
@@ -144,6 +150,7 @@ void CToolboxWindowBase::Redraw()
 	if(gEnv == nullptr)
 		return;
 
+	// Enable the render context for this window.
 	gEnv->pRenderer->SetCurrentContext(m_hWnd);
 	
 	RECT clientRect;
@@ -156,7 +163,8 @@ void CToolboxWindowBase::Redraw()
 	int width = clientRect.right - clientRect.left;
 	int height = clientRect.bottom - clientRect.top;
 
-	CryLogAlways("Changing client res to %ix%i", width, height);
+	// Update the resolution for this render context based on the client rect.
+	// Note that we use the client rect and not the window rect. (Using window rect results in stretching)
 	gEnv->pRenderer->ChangeViewport(0, 0, width, height);
 
 	SToolboxStyle *pWindowStyle = g_pToolbox->GetWindowStyle();
@@ -198,7 +206,7 @@ void CToolboxWindowBase::Redraw()
 
 	gEnv->pRenderer->EndFrame();
 
-	// Restore context
+	// Restore the main context
 	gEnv->pRenderer->MakeMainContextActive();
 }
 
