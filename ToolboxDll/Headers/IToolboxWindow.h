@@ -3,14 +3,6 @@
 
 #include <IToolboxComponent.h>
 
-enum EResizeState
-{
-	EResizeState_Left = (1 << 0),
-	EResizeState_Right = (1 << 1),
-	EResizeState_Top = (1 << 2),
-	EResizeState_Bottom = (1 << 3),
-};
-
 enum EDockState
 {
 	EDockState_Left = 0,

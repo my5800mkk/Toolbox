@@ -5,7 +5,6 @@
 
 CTabbedWindow::CTabbedWindow()
 	: m_pActiveTab(nullptr)
-	, m_bHoldingTab(false)
 {
 }
 
@@ -103,8 +102,6 @@ bool CTabbedWindow::DetachTab(IToolboxComponent *pComponent)
 			CTabbedWindow *pNewTabbedWindow = static_cast<CTabbedWindow *>(g_pToolbox->GetWindowManager()->SpawnWindow("TabbedWindow", "Tab", componentWndRect.right - componentWndRect.left, componentWndRect.bottom - componentWndRect.top, componentWndRect.left, componentWndRect.top));
 
 			pNewTabbedWindow->AttachTab(pComponent);
-
-			pNewTabbedWindow->OnDetach();
 
 			m_windowTabs.erase(it);
 
@@ -223,7 +220,9 @@ void CTabbedWindow::OnResize(int width, int height)
 
 void CTabbedWindow::OnMouseMove(int x, int y)
 {
-	if(m_bHoldingTab)
+	bool bHandled = false;
+
+	if(m_modifierState == eModifierState_MoveTab)
 	{
 		POINT cursorPoint;
 		if(GetCursorPos(&cursorPoint))
@@ -231,39 +230,37 @@ void CTabbedWindow::OnMouseMove(int x, int y)
 			int windowX = cursorPoint.x - m_lastCursorPosition.x;
 			int windowY = cursorPoint.y - m_lastCursorPosition.y;
 
-
-			SetWindowPos((HWND)m_pActiveTab->GetHwnd(), nullptr, windowX, windowY, 0, 0, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOSIZE);
-
 			// Can't detach, move the tab container instead.
 			if(m_windowTabs.size() == 1 && !IsDocked())
 			{
-				m_bMoving = true;
-				m_lastCursorPosition.x = x;
-				m_lastCursorPosition.y = y;
-
-				SetCapture(m_hWnd);
-
-				return;
+				SetModifierState(eModifierState_MoveWindow);
 			}
-			else if(windowY != 0) // detach tab
+			else if(abs(windowY) > 2) // detach tab
 			{
 				CryLogAlways("Detached tab, windowY was %i", windowY);
 				DetachTab(m_pActiveTab);
 
-				ReleaseCapture();
+				SetWindowPos((HWND)m_pActiveTab->GetHwnd(), nullptr, windowX, windowY, 0, 0, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOSIZE);
+
+				SetModifierState(eModifierState_None);
 			}
 			else // Move tab along x-axis until it is outside the tab window, at which point it is detached
 			{
 
 			}
+
+			bHandled = true;
 		}
 	}
 
-	CToolboxWindow::OnMouseMove(x, y);
+	if(!bHandled)
+		CToolboxWindow::OnMouseMove(x, y);
 }
 
 void CTabbedWindow::OnLeftMouseButtonDown(int x, int y)
 {
+	CToolboxWindow::OnLeftMouseButtonDown(x, y);
+
 	POINT cursorPoint;
 
 	if(GetCursorPos(&cursorPoint))
@@ -292,11 +289,7 @@ void CTabbedWindow::OnLeftMouseButtonDown(int x, int y)
 				if(pTabComponent != m_pActiveTab)
 					ActivateTab(i);
 
-				m_bHoldingTab = true;
-				m_lastCursorPosition.x = x;
-				m_lastCursorPosition.y = y;
-
-				SetCapture(m_hWnd);
+				SetModifierState(eModifierState_MoveTab);
 
 				clickedTab = true;
 
@@ -307,25 +300,7 @@ void CTabbedWindow::OnLeftMouseButtonDown(int x, int y)
 		// Clicked on the tab window itself
 		if(!clickedTab && !IsDocked())
 		{
-			m_bMoving = true;
-			m_lastCursorPosition.x = x;
-			m_lastCursorPosition.y = y;
-
-			SetCapture(m_hWnd);
+			SetModifierState(eModifierState_MoveWindow);
 		}
 	}
-
-	CToolboxWindow::OnLeftMouseButtonDown(x, y);
-}
-
-void CTabbedWindow::OnCaptureChanged(HWND hWnd)
-{
-	CToolboxWindow::OnCaptureChanged(hWnd);
-
-	m_bHoldingTab = hWnd == m_hWnd;
-}
-
-void CTabbedWindow::OnDetach()
-{
-
 }

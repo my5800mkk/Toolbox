@@ -21,8 +21,6 @@ public:
 	virtual void OnMove(int x, int y) override;
 	virtual void OnResize(int width, int height) override;
 
-	virtual void OnCaptureChanged(HWND hWnd) override;
-
 	virtual bool CanMove() override { return false; }
 	// ~CToolboxWindow
 
@@ -30,8 +28,6 @@ public:
 	bool DetachTab(IToolboxComponent *pComponent);
 
 	bool ActivateTab(int index);
-
-	void OnDetach();
 
 protected:
 	STextDrawContext GetTabSize(const char *title, int &xOrigin, int &xEnd, SToolboxStyle *pStyle);
@@ -42,7 +38,5 @@ private:
 
 	std::vector<IToolboxComponent *> m_windowTabs;
 	IToolboxComponent *m_pActiveTab;
-
-	bool m_bHoldingTab;
 };
 

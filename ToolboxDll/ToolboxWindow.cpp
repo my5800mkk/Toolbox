@@ -23,13 +23,13 @@ bool CToolboxWindow::CanResize(uint32 resizeState)
 	// Standalone windows have different resizing rules
 	if(IsDocked())
 	{	
-		if(m_dockState & EDockState_Left && resizeState != EResizeState_Right)
+		if(m_dockState & EDockState_Left && resizeState != eModifierState_ResizeRight)
 			return false;
-		if(m_dockState & EDockState_Right && resizeState != EResizeState_Left)
+		if(m_dockState & EDockState_Right && resizeState != eModifierState_ResizeLeft)
 			return false;
-		if(m_dockState & EDockState_Bottom && resizeState != EResizeState_Top)
+		if(m_dockState & EDockState_Bottom && resizeState != eModifierState_ResizeTop)
 			return false;
-		if(m_dockState & EDockState_Top && resizeState != EResizeState_Bottom)
+		if(m_dockState & EDockState_Top && resizeState != eModifierState_ResizeBottom)
 			return false;
 
 		return true;
@@ -409,7 +409,7 @@ void CToolboxWindow::OnMouseMove(int x, int y)
 	// Used to check whether we're currently docked
 	IDockWindow *pDockOwner = GetDockOwner();
 
-	if(m_bMoving)
+	if(m_modifierState == eModifierState_MoveWindow)
 	{
 		if(IsDocked())
 		{

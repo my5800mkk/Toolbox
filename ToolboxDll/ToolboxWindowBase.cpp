@@ -5,8 +5,7 @@
 #include <IRenderAuxGeom.h>
 
 CToolboxWindowBase::CToolboxWindowBase()
-	: m_bMoving(false)
-	, m_resizeState(0)
+	: m_modifierState(eModifierState_None)
 {
 }
 
@@ -68,13 +67,13 @@ bool CToolboxWindowBase::CanResize(uint32 resizeState)
 
 		if(GetMonitorInfo(monitor, &monitorInfo))
 		{
-			if(resizeState & EResizeState_Top && windowRect.top <= monitorInfo.rcWork.top)
+			if(resizeState & eModifierState_ResizeTop && windowRect.top <= monitorInfo.rcWork.top)
 				return false;
-			if(resizeState & EResizeState_Bottom && windowRect.bottom >= monitorInfo.rcWork.bottom)
+			if(resizeState & eModifierState_ResizeBottom && windowRect.bottom >= monitorInfo.rcWork.bottom)
 				return false;
-			if(resizeState & EResizeState_Left && windowRect.left <= monitorInfo.rcWork.left)
+			if(resizeState & eModifierState_ResizeLeft && windowRect.left <= monitorInfo.rcWork.left)
 				return false;
-			if(resizeState & EResizeState_Right && windowRect.right >= monitorInfo.rcWork.right)
+			if(resizeState & eModifierState_ResizeRight && windowRect.right >= monitorInfo.rcWork.right)
 				return false;
 		}
 	}
@@ -201,35 +200,38 @@ uint32 CToolboxWindowBase::ShowResizeCursor(int x, int y)
 	SToolboxStyle *pStyle = g_pToolbox->GetWindowStyle();
 
 	if(x <= pStyle->delimiterSize)
-		resizeState |= EResizeState_Left;
+		resizeState |= eModifierState_ResizeLeft;
 	if(y <= pStyle->delimiterSize)
-		resizeState |= EResizeState_Top;
+		resizeState |= eModifierState_ResizeTop;
 
 	if((windowRect.right - windowRect.left) - x <= pStyle->delimiterSize)
-		resizeState |= EResizeState_Right;
+		resizeState |= eModifierState_ResizeRight;
 	if((windowRect.bottom - windowRect.top) - y <= pStyle->delimiterSize)
-		resizeState |= EResizeState_Bottom;
+		resizeState |= eModifierState_ResizeBottom;
 
 	if(!CanResize(resizeState))
 		return 0;
 
 	if(resizeState != 0)
 	{
-		if(((resizeState & EResizeState_Left) && (resizeState & EResizeState_Top))
-			|| ((resizeState & EResizeState_Right) && (resizeState & EResizeState_Bottom)))
+		// Always append Resize flag to easily check if we're resizing, no matter the direction.
+		resizeState |= eModifierState_Resize;
+
+		if(((resizeState & eModifierState_ResizeLeft) && (resizeState & eModifierState_ResizeTop))
+			|| ((resizeState & eModifierState_ResizeRight) && (resizeState & eModifierState_ResizeBottom)))
 		{
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
 		}
-		else if(((resizeState & EResizeState_Left) && (resizeState & EResizeState_Bottom))
-			|| ((resizeState & EResizeState_Right) && (resizeState & EResizeState_Top)))
+		else if(((resizeState & eModifierState_ResizeLeft) && (resizeState & eModifierState_ResizeBottom))
+			|| ((resizeState & eModifierState_ResizeRight) && (resizeState & eModifierState_ResizeTop)))
 		{
 			SetCursor(LoadCursor(NULL, IDC_SIZENESW));
 		}
-		else if((resizeState & EResizeState_Left) || (resizeState & EResizeState_Right))
+		else if((resizeState & eModifierState_ResizeLeft) || (resizeState & eModifierState_ResizeRight))
 		{
 			SetCursor(LoadCursor(NULL, IDC_SIZEWE));
 		}
-		else if((resizeState & EResizeState_Top) || (resizeState & EResizeState_Bottom))
+		else if((resizeState & eModifierState_ResizeTop) || (resizeState & eModifierState_ResizeBottom))
 		{
 			SetCursor(LoadCursor(NULL, IDC_SIZENS));
 		}
@@ -257,6 +259,19 @@ void CToolboxWindowBase::DrawWindowBorder(float width, float height)
 	gEnv->pRenderer->GetIRenderAuxGeom()->DrawLine(Vec3(width, 0, 0), borderColor, Vec3(width, height, 0), borderColor);
 }
 
+void CToolboxWindowBase::SetModifierState(unsigned int moveState)
+{
+	if(moveState != eModifierState_None)
+	{
+		SetCapture(m_hWnd);
+		GetCursorPos(&m_lastCursorPosition);
+
+		m_modifierState = moveState;
+	}
+	else
+		m_modifierState = eModifierState_None;
+}
+
 //////////////////////////////////////////////////
 // WndProc callbacks
 //////////////////////////////////////////////////
@@ -267,7 +282,7 @@ void CToolboxWindowBase::OnRender(int width, int height)
 
 void CToolboxWindowBase::OnMouseMove(int x, int y)
 {
-	if(m_bMoving)
+	if(m_modifierState == eModifierState_MoveWindow)
 	{
 		// TODO: Shouldn't have to do this
 		if(IsMaximized())
@@ -283,27 +298,27 @@ void CToolboxWindowBase::OnMouseMove(int x, int y)
 			SetWindowPos(m_hWnd, nullptr, windowX, windowY, 0, 0, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOSIZE);
 		}
 	}
-	else if(m_resizeState != 0)
+	else if(m_modifierState & eModifierState_Resize)
 	{
 		POINT cursorPoint;
 		RECT windowRect;
 
 		if(GetCursorPos(&cursorPoint) && GetWindowRect(m_hWnd, &windowRect))
 		{
-			if(m_resizeState & EResizeState_Left)
+			if(m_modifierState & eModifierState_ResizeLeft)
 			{
 				windowRect.left = cursorPoint.x;
 			}
-			else if(m_resizeState & EResizeState_Right)
+			else if(m_modifierState & eModifierState_ResizeRight)
 			{
 				windowRect.right = cursorPoint.x;
 			}
 			
-			if(m_resizeState & EResizeState_Top)
+			if(m_modifierState & eModifierState_ResizeTop)
 			{
 				windowRect.top = cursorPoint.y;
 			}
-			else if(m_resizeState & EResizeState_Bottom)
+			else if(m_modifierState & eModifierState_ResizeBottom)
 			{
 				windowRect.bottom = cursorPoint.y;
 			}
@@ -324,29 +339,22 @@ void CToolboxWindowBase::OnMouseMove(int x, int y)
 
 void CToolboxWindowBase::OnMouseLeave()
 {
-	m_bMoving = false;
+	SetModifierState(eModifierState_None);
 }
 
 void CToolboxWindowBase::OnLeftMouseButtonDown(int x, int y)
 {
-	m_lastCursorPosition.x = x;
-	m_lastCursorPosition.y = y;
-	
 	SToolboxStyle *pStyle = g_pToolbox->GetWindowStyle();
 
 	uint32 newResizeState = ShowResizeCursor(x, y);
 
 	if(newResizeState != 0)
 	{
-		SetCapture(m_hWnd);
-
-		m_resizeState = newResizeState;
+		SetModifierState(newResizeState);
 	}
 	else if(y <= GetTopBarHeight(pStyle) && CanMove())
 	{
-		SetCapture(m_hWnd);
-
-		m_bMoving = true;
+		SetModifierState(eModifierState_MoveWindow);
 	}
 }
 
@@ -355,7 +363,7 @@ void CToolboxWindowBase::OnLeftMouseButtonUp(int x, int y)
 	RECT windowRect;
 	GetWindowRect(m_hWnd, &windowRect);
 
-	if(m_bMoving)
+	if(m_modifierState == eModifierState_MoveWindow)
 	{
 		// Simulate aero snap on the top of the screen to maximize
 		if(windowRect.top <= 0)
@@ -425,12 +433,8 @@ void CToolboxWindowBase::OnMaximize(int width, int height)
 
 void CToolboxWindowBase::OnCaptureChanged(HWND hWnd)
 {
-	m_bMoving = hWnd == m_hWnd;
+	if(m_modifierState != eModifierState_None && hWnd != m_hWnd)
+		SetModifierState(eModifierState_None);
 
-	if(!m_bMoving)
-	{
-		m_resizeState = 0;
-
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
-	}
+	SetCursor(LoadCursor(NULL, IDC_ARROW));
 }

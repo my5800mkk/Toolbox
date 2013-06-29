@@ -20,6 +20,22 @@ struct SQueuedText
 	string text;
 };
 
+enum EWindowModifierState
+{
+	eModifierState_None = 0,
+
+	eModifierState_MoveWindow = (1 << 0),
+	eModifierState_MoveTab = (1 << 1),
+
+	// Resize flags:
+	// eModifierState_Resize is always set when resizing, others are to indicate the direction.
+	eModifierState_Resize = (1 << 2),
+	eModifierState_ResizeLeft = (1 << 3),
+	eModifierState_ResizeRight = (1 << 4),
+	eModifierState_ResizeTop = (1 << 5),
+	eModifierState_ResizeBottom = (1 << 6),
+};
+
 class CToolboxWindowBase
 	: public IToolboxWindow
 {
@@ -76,10 +92,11 @@ public:
 protected:
 	void AddQueuedText(STextDrawContext drawContext, int x, int y, const char *title) { m_queuedText.push_back(new SQueuedText(drawContext, x, y, title)); }
 
+	void SetModifierState(unsigned int moveState);
+
 	HWND m_hWnd;
 
-	uint32 m_resizeState;
-	bool m_bMoving;
+	unsigned int m_modifierState;
 	POINT m_lastCursorPosition;
 
 private:
