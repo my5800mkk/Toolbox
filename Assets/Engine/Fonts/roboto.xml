@@ -1,0 +1,7 @@
+<fontshader>
+	<font path="Roboto-Regular.ttf" w="288" h="416"/>
+	<effect name="default">
+		<pass>
+		</pass>
+	</effect>
+</fontshader>
