@@ -360,8 +360,35 @@ void CToolboxWindowBase::OnLeftMouseButtonUp(int x, int y)
 
 	if(m_bMoving)
 	{
+		// Simulate aero snap on the top of the screen to maximize
 		if(windowRect.top <= 0)
 			Maximize();
+		else // Simulate aero snap on the left-most or right-most side of the screen
+		{
+			POINT cursorPoint;
+			GetCursorPos(&cursorPoint);
+
+			HMONITOR monitor = MonitorFromPoint(cursorPoint, MONITOR_DEFAULTTONULL);
+			if(monitor == nullptr)
+				return;
+		
+			MONITORINFO monitorInfo;
+			monitorInfo.cbSize = sizeof(MONITORINFO);
+
+			if(!GetMonitorInfo(monitor, &monitorInfo))
+				return;
+
+			if(cursorPoint.x <= monitorInfo.rcWork.left || cursorPoint.x >= (monitorInfo.rcWork.right - 1))
+			{
+				int width = (int)((monitorInfo.rcWork.right - monitorInfo.rcWork.left) * 0.5f);
+				int height = (monitorInfo.rcWork.bottom - monitorInfo.rcWork.top);
+
+				if(cursorPoint.x <= monitorInfo.rcWork.left)
+					SetWindowPos(m_hWnd, nullptr, monitorInfo.rcWork.left, 0, width, height, 0);
+				else
+					SetWindowPos(m_hWnd, nullptr, monitorInfo.rcWork.right - width, 0, width, height, 0);
+			}
+		}
 	}
 
 	ReleaseCapture();
