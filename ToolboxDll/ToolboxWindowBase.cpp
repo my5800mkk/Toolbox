@@ -334,22 +334,19 @@ void CToolboxWindowBase::OnLeftMouseButtonDown(int x, int y)
 	
 	SToolboxStyle *pStyle = g_pToolbox->GetWindowStyle();
 
-	if(y <= GetTopBarHeight(pStyle) && CanMove())
+	uint32 newResizeState = ShowResizeCursor(x, y);
+
+	if(newResizeState != 0)
+	{
+		SetCapture(m_hWnd);
+
+		m_resizeState = newResizeState;
+	}
+	else if(y <= GetTopBarHeight(pStyle) && CanMove())
 	{
 		SetCapture(m_hWnd);
 
 		m_bMoving = true;
-	}
-	else
-	{
-		uint32 newResizeState = ShowResizeCursor(x, y);
-
-		if(newResizeState != 0)
-		{
-			SetCapture(m_hWnd);
-
-			m_resizeState = newResizeState;
-		}
 	}
 }
 
