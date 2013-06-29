@@ -89,6 +89,10 @@ protected:
 
 	void ResizeDockedWindows();
 
+	// Gets the available customizable area.
+	// Used to determine how much space docked components need to share.
+	bool GetWorkingArea(LPRECT area);
+
 protected:
 	IDockWindow *m_pDockOwner;
 	EDockState m_dockState;

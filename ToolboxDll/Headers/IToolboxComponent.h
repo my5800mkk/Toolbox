@@ -12,15 +12,6 @@ struct IToolboxComponent
 	/// </summary>
 	virtual void OnTabActivated(IToolboxWindow *pTabContainer) = 0;
 
-	/// <summary>
-	/// Gets the available customizable area.
-	/// Used to determine how much space docked components need to share.
-	///
-	/// Note: Working area != Component size.
-	/// </summary>
-	/// <returns>True if successful, otherwise false. (If false, other components can't dock with this)</returns>
-	virtual bool GetWorkingArea(LPRECT area) = 0;
-
 	virtual RECT GetRect() = 0;
 
 	virtual void Resize(RECT area) = 0;

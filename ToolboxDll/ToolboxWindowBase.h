@@ -28,8 +28,6 @@ public:
 	virtual ~CToolboxWindowBase();
 
 	// IToolboxComponent
-	virtual bool GetWorkingArea(LPRECT area) override;
-
 	virtual RECT GetRect() override;
 
 	virtual void Resize(RECT area) override;

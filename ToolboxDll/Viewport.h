@@ -22,8 +22,6 @@ public:
 	// IToolboxComponent
 	virtual void OnTabActivated(IToolboxWindow *pTabContainer) override {}
 
-	virtual bool GetWorkingArea(LPRECT area) override { return false; }
-
 	virtual RECT GetRect() override;
 
 	virtual void Redraw() override;

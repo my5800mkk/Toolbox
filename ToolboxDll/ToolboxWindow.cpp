@@ -117,6 +117,26 @@ bool CToolboxWindow::CanDockWindow(IToolboxWindow *pWindow, EDockState dockState
 	return true;
 }
 
+bool CToolboxWindow::GetWorkingArea(LPRECT workingRect)
+{
+	RECT windowRect;
+	if(!GetWindowRect(m_hWnd, &windowRect))
+		return false;
+
+	SToolboxStyle *pStyle = g_pToolbox->GetWindowStyle();
+
+	// Title area is static and can't be modified.
+	workingRect->top = GetTopBarHeight(pStyle);
+	// Reserve some space for the infobar at the bottom of the window.
+	workingRect->bottom = (windowRect.bottom - windowRect.top) - pStyle->infoBarHeight;
+
+	// Offset by one as we have to be able to draw the border
+	workingRect->left = 1;
+	workingRect->right = (windowRect.right - windowRect.left) - 1;
+
+	return true;
+}
+
 void CToolboxWindow::CalculateDockedWorkingArea(LPRECT area, EDockState dockState, int size)
 {
 	RECT dockingArea;
