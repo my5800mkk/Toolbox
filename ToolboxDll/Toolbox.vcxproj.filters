@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Toolbox.h">
+      <Filter>Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IToolboxApplication.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemEventListener_Toolbox.h">
+      <Filter>Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolboxStyle.h">
+      <Filter>Style</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Viewports</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolboxWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IToolboxWindow.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IToolboxWindowManager.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="StartupSplash.h">
+      <Filter>Windows\StartupSplash</Filter>
+    </ClInclude>
+    <ClInclude Include="TabbedWindow.h">
+      <Filter>Windows\Tabbed</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWindow.h">
+      <Filter>Windows\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="DialogWindow.h">
+      <Filter>Windows\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolboxWindowBase.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IToolboxComponent.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IDockWindow.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="ToolboxDll.cpp">
+      <Filter>Startup</Filter>
+    </ClCompile>
+    <ClCompile Include="Toolbox.cpp">
+      <Filter>Toolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemEventListener_Toolbox.cpp">
+      <Filter>Toolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>Viewports</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolboxWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupSplash.cpp">
+      <Filter>Windows\StartupSplash</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedWindow.cpp">
+      <Filter>Windows\Tabbed</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>Windows\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogWindow.cpp">
+      <Filter>Windows\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolboxWindowBase.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Startup">
+      <UniqueIdentifier>{4e363826-3e0d-4ab5-a8ca-b9ff90942058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{2274758e-72ad-46e0-8409-df6cebf00772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Toolbox">
+      <UniqueIdentifier>{2de1619b-2f0c-4705-a8e5-59c8778b080d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Style">
+      <UniqueIdentifier>{7ced5d83-e912-4c5e-ae42-20ef830cc691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Viewports">
+      <UniqueIdentifier>{2b79f618-95c7-4ad4-a12f-b5ecdb63460d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{af162653-ff9f-415f-ae8d-829c931b213f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{4e3e8dc7-ddbb-491f-8861-3f44295b03ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\StartupSplash">
+      <UniqueIdentifier>{eddc4b60-2c84-4ba2-afde-93cf2dcfc153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Tabbed">
+      <UniqueIdentifier>{fe93035f-eba6-4076-8325-9aa69bbf4d8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Main">
+      <UniqueIdentifier>{a2ea38d0-45c7-44c3-87a2-f779d4670fa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{682dc738-a44e-44a1-9ab1-69487ab96408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Dialogs">
+      <UniqueIdentifier>{132234df-872b-482c-9a13-8472d45234f9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Toolbox.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Toolbox.ico" />
+  </ItemGroup>
+</Project>
