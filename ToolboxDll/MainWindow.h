@@ -13,10 +13,15 @@ public:
 
 	virtual bool IsDockable() override { return false; }
 
+	virtual void OnRender(int width, int height) override;
+	virtual void PreloadAssets() override;
+
 	virtual void OnClose() override;
 	// ~CToolboxWindow
 
 private:
 	IToolboxWindow *m_pEditModeToolbar;
 	IToolboxWindow *m_pRollupbarWindow;
+
+	CButton *m_pLogoButton;
 };

@@ -89,6 +89,8 @@ public:
 
 	virtual void DrawWindowBorder(float width, float height);
 
+	virtual void PreloadAssets() {}
+
 protected:
 	void AddQueuedText(STextDrawContext drawContext, int x, int y, const char *title) { m_queuedText.push_back(new SQueuedText(drawContext, x, y, title)); }
 

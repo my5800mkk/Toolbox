@@ -13,7 +13,7 @@
 class CButton
 {
 public:
-	CButton(ITexture *pTexture, Vec2 position);
+	CButton(const char *texturePath, Vec2 position);
 	~CButton();
 
 	void Draw();

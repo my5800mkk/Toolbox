@@ -1,10 +1,11 @@
 #include "StdAfx.h"
 #include "Button.h"
 
-CButton::CButton(ITexture *pTexture, Vec2 position)
-	: m_pTexture(pTexture)
-	, m_position(position)
+CButton::CButton(const char *texturePath, Vec2 position)
+	: m_position(position)
 {
+	m_pTexture = gEnv->pRenderer->EF_LoadTexture(texturePath, FT_NOMIPS | FT_FILESINGLE | FT_FILTER_LINEAR);
+	CRY_ASSERT(m_pTexture);
 }
 
 CButton::~CButton()

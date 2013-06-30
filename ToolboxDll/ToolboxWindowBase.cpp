@@ -24,6 +24,8 @@ void CToolboxWindowBase::Initialize(WIN_HWND hWnd)
 		delete this;
 	}
 
+	PreloadAssets();
+
 	// Create render context for this window handle.
 	// Contexts only work from within the editor, and allow for rendering onto different windows.
 	// Each context stores resolution independently.

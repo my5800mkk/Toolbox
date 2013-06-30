@@ -307,11 +307,6 @@ void CToolboxWindow::OnRender(int width, int height)
 {
 	CToolboxWindowBase::OnRender(width, height);
 
-	for each (auto button in m_buttons)
-	{
-		button->Draw();
-	}
-
 	// If docked, draw the docked window mover.
 	if(IsDocked())
 	{
@@ -376,18 +371,6 @@ void CToolboxWindow::Update()
 		if(pComponentInfo != nullptr)
 			pComponentInfo->pWindow->Update();
 	}
-}
-
-CButton *CToolboxWindow::AddButton(int x, int y, const char *imagePath)
-{
-	ITexture *pTexture = gEnv->pRenderer->EF_LoadTexture(imagePath, FT_NOMIPS | FT_FILESINGLE | FT_FILTER_LINEAR);
-	if(pTexture == nullptr)
-		return nullptr;
-
-	CButton *pButton = new CButton(pTexture, Vec2i(x, y));
-	m_buttons.push_back(pButton);
-
-	return pButton;
 }
 
 int CToolboxWindow::GetTopBarHeight(SToolboxStyle *pStyle)

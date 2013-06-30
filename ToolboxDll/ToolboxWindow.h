@@ -82,8 +82,6 @@ public:
 	virtual void DrawWindowBorder(float width, float height) override;
 	// ~CToolboxWindowBase
 
-	CButton *AddButton(int x, int y, const char *imagePath);
-
 protected:
 	void CalculateDockedWorkingArea(LPRECT rect, EDockState dockState, int size);
 
@@ -96,9 +94,6 @@ protected:
 protected:
 	IDockWindow *m_pDockOwner;
 	EDockState m_dockState;
-
-	// TODO: Remove
-	std::vector<CButton *> m_buttons;
 
 	SDockedWindow *m_dockedWindows[EDockState_Last];
 };
