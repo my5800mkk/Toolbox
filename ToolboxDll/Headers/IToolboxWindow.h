@@ -32,6 +32,11 @@ struct IToolboxWindow
 	virtual bool IsMaximized() = 0;
 	virtual bool IsMinimized() = 0;
 
+	virtual void SetParentOf(IToolboxWindow *pChild) = 0;
+
+	virtual IToolboxWindow *GetWindowParent() = 0;
+	inline bool IsChild() { return GetWindowParent() != nullptr; }
+
 	/////////////////////////
 	/// Docking
 	/////////////////////////

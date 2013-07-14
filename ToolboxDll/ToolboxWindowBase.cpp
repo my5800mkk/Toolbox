@@ -111,6 +111,24 @@ bool CToolboxWindowBase::IsMinimized()
 	return false;
 }
 
+IToolboxWindow *CToolboxWindowBase::GetWindowParent()
+{
+	return g_pToolbox->GetWindowManager()->FindToolboxWindow((WIN_HWND)GetParent(m_hWnd));
+}
+
+void CToolboxWindowBase::SetParentOf(IToolboxWindow *pChild)
+{
+	HWND childHwnd = (HWND)pChild->GetHwnd();
+
+	// Assign to parent
+	SetParent(childHwnd, m_hWnd);
+
+	// Configure window style
+	SetWindowLong(childHwnd, GWL_STYLE, WS_CHILD);
+
+	m_children.push_back(pChild);
+}
+
 RECT CToolboxWindowBase::GetRect()
 {
 	RECT rect;
@@ -189,6 +207,11 @@ void CToolboxWindowBase::Redraw()
 
 	// Restore the main context
 	gEnv->pRenderer->MakeMainContextActive();
+
+	for(auto it = m_children.begin(); it != m_children.end(); ++it)
+	{
+		(*it)->Redraw();
+	}
 }
 
 uint32 CToolboxWindowBase::ShowResizeCursor(int x, int y)

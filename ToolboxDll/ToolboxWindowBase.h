@@ -66,6 +66,9 @@ public:
 	virtual bool IsMaximized() override;
 	virtual bool IsMinimized() override;
 
+	virtual void SetParentOf(IToolboxWindow *pChild) override;
+	virtual IToolboxWindow *GetWindowParent() override;;
+
 	virtual void OnRender(int width, int height);
 	
 	virtual void OnMouseMove(int x, int y) override;
@@ -100,6 +103,8 @@ protected:
 
 	unsigned int m_modifierState;
 	POINT m_lastCursorPosition;
+
+	std::vector<IToolboxWindow *> m_children;
 
 private:
 	uint32 ShowResizeCursor(int x, int y);
