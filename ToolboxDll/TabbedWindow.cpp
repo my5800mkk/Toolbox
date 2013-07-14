@@ -233,7 +233,7 @@ void CTabbedWindow::OnMouseMove(int x, int y)
 			// Can't detach, move the tab container instead.
 			if(m_windowTabs.size() == 1 && !IsDocked())
 			{
-				SetModifierState(eModifierState_MoveWindow);
+				//SetModifierState(eModifierState_MoveWindow);
 			}
 			else if(abs(windowY) > 2) // detach tab
 			{
@@ -300,7 +300,7 @@ void CTabbedWindow::OnLeftMouseButtonDown(int x, int y)
 		// Clicked on the tab window itself
 		if(!clickedTab && !IsDocked())
 		{
-			SetModifierState(eModifierState_MoveWindow);
+			//SetModifierState(eModifierState_MoveWindow);
 		}
 	}
 }

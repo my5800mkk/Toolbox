@@ -307,23 +307,7 @@ void CToolboxWindowBase::OnRender(int width, int height)
 
 void CToolboxWindowBase::OnMouseMove(int x, int y)
 {
-	if(m_modifierState == eModifierState_MoveWindow)
-	{
-		// TODO: Shouldn't have to do this
-		if(IsMaximized())
-			ShowWindow(m_hWnd, SW_SHOWNORMAL);
-
-		POINT cursorPoint;
-		if(GetCursorPos(&cursorPoint))
-		{
-			// Move to the cursor position
-			int windowX = cursorPoint.x - m_lastCursorPosition.x;
-			int windowY = cursorPoint.y - m_lastCursorPosition.y;
-
-			SetWindowPos(m_hWnd, nullptr, windowX, windowY, 0, 0, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOSIZE);
-		}
-	}
-	else if(m_modifierState & eModifierState_Resize)
+	if(m_modifierState & eModifierState_Resize)
 	{
 		POINT cursorPoint;
 		RECT windowRect;
@@ -379,48 +363,13 @@ void CToolboxWindowBase::OnLeftMouseButtonDown(int x, int y)
 	}
 	else if(y <= GetTopBarHeight(pStyle) && CanMove())
 	{
-		SetModifierState(eModifierState_MoveWindow);
+		ReleaseCapture();
+		SendMessage(m_hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
 	}
 }
 
 void CToolboxWindowBase::OnLeftMouseButtonUp(int x, int y)
 {
-	RECT windowRect;
-	GetWindowRect(m_hWnd, &windowRect);
-
-	if(m_modifierState == eModifierState_MoveWindow)
-	{
-		// Simulate aero snap on the top of the screen to maximize
-		if(windowRect.top <= 0)
-			Maximize();
-		else // Simulate aero snap on the left-most or right-most side of the screen
-		{
-			POINT cursorPoint;
-			GetCursorPos(&cursorPoint);
-
-			HMONITOR monitor = MonitorFromPoint(cursorPoint, MONITOR_DEFAULTTONULL);
-			if(monitor == nullptr)
-				return;
-		
-			MONITORINFO monitorInfo;
-			monitorInfo.cbSize = sizeof(MONITORINFO);
-
-			if(!GetMonitorInfo(monitor, &monitorInfo))
-				return;
-
-			if(cursorPoint.x <= monitorInfo.rcWork.left || cursorPoint.x >= (monitorInfo.rcWork.right - 1))
-			{
-				int width = (int)((monitorInfo.rcWork.right - monitorInfo.rcWork.left) * 0.5f);
-				int height = (monitorInfo.rcWork.bottom - monitorInfo.rcWork.top);
-
-				if(cursorPoint.x <= monitorInfo.rcWork.left)
-					SetWindowPos(m_hWnd, nullptr, monitorInfo.rcWork.left, 0, width, height, 0);
-				else
-					SetWindowPos(m_hWnd, nullptr, monitorInfo.rcWork.right - width, 0, width, height, 0);
-			}
-		}
-	}
-
 	ReleaseCapture();
 
 	SetCursor(LoadCursor(NULL, IDC_ARROW));

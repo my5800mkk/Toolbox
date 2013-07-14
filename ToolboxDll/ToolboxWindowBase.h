@@ -24,7 +24,6 @@ enum EWindowModifierState
 {
 	eModifierState_None = 0,
 
-	eModifierState_MoveWindow = (1 << 0),
 	eModifierState_MoveTab = (1 << 1),
 
 	// Resize flags:
