@@ -249,28 +249,11 @@ LRESULT CALLBACK CWindowManager::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					else
 						clientRect = reinterpret_cast<LPRECT>(lParam);
 
-					// IsMaximized
-					WINDOWPLACEMENT windowPlacement;
-					if(GetWindowPlacement(hWnd, &windowPlacement) && windowPlacement.showCmd == SW_SHOWMAXIMIZED)
+					if(pWindow->IsMaximized())
 					{
-						int borderThickness = GetSystemMetrics(SM_CXSIZEFRAME);
+						int borderThickness = GetSystemMetrics(SM_CYSIZEFRAME);
 
-						HMONITOR monitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-						if(monitor != nullptr)
-						{
-							MONITORINFO monitorInfo;
-							monitorInfo.cbSize = sizeof(MONITORINFO);
-
-							if(GetMonitorInfo(monitor, &monitorInfo))
-							{
-								*clientRect = monitorInfo.rcWork;
-
-								clientRect->top -= borderThickness;
-								clientRect->left -= borderThickness;
-								clientRect->right += borderThickness;
-								clientRect->bottom += borderThickness;
-							}
-						}
+						InflateRect(clientRect, borderThickness - 8, borderThickness - 8);
 					}
 
 					return 0;
