@@ -12,4 +12,6 @@
 *.opensdf
 
 *.suo
+*.user
+
 *.ncrunchsolution*

@@ -15,10 +15,7 @@
       <Filter>Style</Filter>
     </ClInclude>
     <ClInclude Include="Viewport.h">
-      <Filter>Viewports</Filter>
-    </ClInclude>
-    <ClInclude Include="ToolboxWindow.h">
-      <Filter>Windows</Filter>
+      <Filter>Components\Viewports</Filter>
     </ClInclude>
     <ClInclude Include="WindowManager.h">
       <Filter>Windows</Filter>
@@ -57,6 +54,24 @@
     <ClInclude Include="Headers\IDockWindow.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="EditModeToolbar.h">
+      <Filter>Windows\Toolbars</Filter>
+    </ClInclude>
+    <ClInclude Include="Rollupbar.h">
+      <Filter>Windows\Toolbars</Filter>
+    </ClInclude>
+    <ClInclude Include="DockWindow.h">
+      <Filter>Windows\DockWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticToolbar.h">
+      <Filter>Windows\Toolbars</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IButton.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IIcon.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -70,10 +85,7 @@
       <Filter>Toolbox</Filter>
     </ClCompile>
     <ClCompile Include="Viewport.cpp">
-      <Filter>Viewports</Filter>
-    </ClCompile>
-    <ClCompile Include="ToolboxWindow.cpp">
-      <Filter>Windows</Filter>
+      <Filter>Components\Viewports</Filter>
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
       <Filter>Windows</Filter>
@@ -96,6 +108,15 @@
     <ClCompile Include="ToolboxWindowBase.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="EditModeToolbar.cpp">
+      <Filter>Windows\Toolbars</Filter>
+    </ClCompile>
+    <ClCompile Include="Rollupbar.cpp">
+      <Filter>Windows\Toolbars</Filter>
+    </ClCompile>
+    <ClCompile Include="DockWindow.cpp">
+      <Filter>Windows\DockWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Startup">
@@ -110,14 +131,17 @@
     <Filter Include="Style">
       <UniqueIdentifier>{7ced5d83-e912-4c5e-ae42-20ef830cc691}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Viewports">
+    <Filter Include="Components">
+      <UniqueIdentifier>{4e3e8dc7-ddbb-491f-8861-3f44295b03ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{682dc738-a44e-44a1-9ab1-69487ab96408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Viewports">
       <UniqueIdentifier>{2b79f618-95c7-4ad4-a12f-b5ecdb63460d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Windows">
       <UniqueIdentifier>{af162653-ff9f-415f-ae8d-829c931b213f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{4e3e8dc7-ddbb-491f-8861-3f44295b03ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Windows\StartupSplash">
       <UniqueIdentifier>{eddc4b60-2c84-4ba2-afde-93cf2dcfc153}</UniqueIdentifier>
@@ -128,11 +152,14 @@
     <Filter Include="Windows\Main">
       <UniqueIdentifier>{a2ea38d0-45c7-44c3-87a2-f779d4670fa9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{682dc738-a44e-44a1-9ab1-69487ab96408}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Windows\Dialogs">
       <UniqueIdentifier>{132234df-872b-482c-9a13-8472d45234f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Toolbars">
+      <UniqueIdentifier>{5733afd9-17a9-4b63-897a-f99bf833c543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\DockWindow">
+      <UniqueIdentifier>{f4b302f1-0c1f-4282-ab20-772fb3a0339b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

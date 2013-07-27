@@ -125,7 +125,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Bin32\</OutDir>
+    <OutDir>$(SolutionDir)../../../Bin32</OutDir>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -135,15 +135,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\..\Bin32\</OutDir>
+    <OutDir>$(SolutionDir)../../../Bin32</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Bin32\</OutDir>
+    <OutDir>$(SolutionDir)../../../Bin32</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\..\Bin32\</OutDir>
+    <OutDir>$(SolutionDir)../../../Bin32</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -528,7 +528,10 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="DialogWindow.h" />
+    <ClInclude Include="EditModeToolbar.h" />
+    <ClInclude Include="Headers\IButton.h" />
     <ClInclude Include="Headers\IDockWindow.h" />
+    <ClInclude Include="Headers\IIcon.h" />
     <ClInclude Include="Headers\IToolboxApplication.h" />
     <ClInclude Include="Headers\IToolboxComponent.h" />
     <ClInclude Include="Headers\IToolboxWindow.h" />
@@ -536,13 +539,15 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="RenderUtils.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="Rollupbar.h" />
     <ClInclude Include="StartupSplash.h" />
+    <ClInclude Include="StaticToolbar.h" />
     <ClInclude Include="SystemEventListener_Toolbox.h" />
     <ClInclude Include="TabbedWindow.h" />
     <ClInclude Include="Toolbox.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ToolboxStyle.h" />
-    <ClInclude Include="ToolboxWindow.h" />
+    <ClInclude Include="DockWindow.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="ToolboxWindowBase.h" />
     <ClInclude Include="WindowManager.h" />
@@ -550,7 +555,9 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="DialogWindow.cpp" />
+    <ClCompile Include="EditModeToolbar.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Rollupbar.cpp" />
     <ClCompile Include="StartupSplash.cpp" />
     <ClCompile Include="SystemEventListener_Toolbox.cpp" />
     <ClCompile Include="TabbedWindow.cpp" />
@@ -566,7 +573,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='UnitTests|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ToolboxWindow.cpp" />
+    <ClCompile Include="DockWindow.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="ToolboxWindowBase.cpp" />
     <ClCompile Include="WindowManager.cpp" />

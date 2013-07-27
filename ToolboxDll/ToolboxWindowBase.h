@@ -43,11 +43,14 @@ public:
 	virtual ~CToolboxWindowBase();
 
 	// IToolboxComponent
+	virtual void OnTabActivated(IToolboxWindow *pTabContainer) override {}
+
 	virtual RECT GetRect() override;
 
 	virtual void Resize(RECT area) override;
 
-	virtual void Redraw();
+	virtual void Redraw() override;
+	virtual void Update() override {}
 	
 	virtual WIN_HWND GetHwnd() override { return m_hWnd; }
 	// ~IToolboxComponent
@@ -65,29 +68,47 @@ public:
 	virtual bool IsMaximized() override;
 	virtual bool IsMinimized() override;
 
+	virtual int GetMinWidth() override { return 100; }
+	virtual int GetMinHeight() override { return 100; }
+
 	virtual void SetParentOf(IToolboxWindow *pChild) override;
-	virtual IToolboxWindow *GetWindowParent() override;;
+	virtual IToolboxWindow *GetWindowParent() override;
+
+	virtual const char *GetTitle() override;
+
+	virtual IButton *CreateButton(const char *texturePath) override;
+
+	virtual void RegisterListener(IToolboxWindowListener *pListener);
+	virtual void UnregisterListener(IToolboxWindowListener *pListener);
+
+	virtual bool IsDockable() override { return true; }
+
+	virtual IDockWindow *GetDockOwner() override { return m_pDockOwner; }
+	virtual void OnDocked(IDockWindow *pOwner, EDockState dockState) override { m_pDockOwner = pOwner; m_dockState = dockState; }
+
+	virtual int GetDefaultDockedWidth() { return GetMinWidth(); }
+	virtual int GetDefaultDockedHeight() { return GetMinHeight(); }
 
 	virtual void OnRender(int width, int height);
 	
 	virtual void OnMouseMove(int x, int y) override;
 	virtual void OnMouseLeave() override;
-	virtual void OnMouseWheel(short delta) = 0;
 
 	virtual void OnLeftMouseButtonDown(int x, int y) override;
 	virtual void OnLeftMouseButtonUp(int x, int y) override;
-	virtual void OnLeftMouseButtonDoubleClick(int x, int y) = 0;
 
 	virtual void OnMove(int x, int y) override;
+	//virtual void OnChildMoved(IToolboxWindow *pWindow, int x, int y) override;
+
 	virtual void OnResize(int width, int height) override;
+	//virtual void OnChildResized(IToolboxWindow *pWindow, int x, int y) override;
 
 	virtual void OnMaximize(int width, int height) override;
-	virtual void OnMinimize() = 0;
-
+	
 	virtual void OnCaptureChanged(HWND hWnd) override;
 	// ~IToolboxWindow
 
-	virtual int GetTopBarHeight(SToolboxStyle *pStyle) { return pStyle->topBarHeight; }
+	virtual int GetTopBarHeight(SToolboxStyle *pStyle);
 
 	virtual void DrawWindowBorder(float width, float height);
 
@@ -103,11 +124,20 @@ protected:
 	unsigned int m_modifierState;
 	POINT m_lastCursorPosition;
 
+	IDockWindow *m_pDockOwner;
+	EDockState m_dockState;
+
 	std::vector<IToolboxWindow *> m_children;
+
+	std::vector<IToolboxWindowListener *> m_listeners;
 
 private:
 	uint32 ShowResizeCursor(int x, int y);
 
 	std::vector<SQueuedText *> m_queuedText;
 };
+
+#define INVOKE_LISTENERS(method) \
+	for each(auto listener in m_listeners) \
+		listener->method;
 

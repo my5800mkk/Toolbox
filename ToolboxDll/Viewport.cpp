@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Viewport.h"
 
-#include "ToolboxWindow.h"
+#include "DockWindow.h"
 
 CViewport::CViewport(HWND hWnd)
 	: m_hWnd(hWnd)

@@ -34,27 +34,27 @@ public:
 	~CToolboxApplication();
 
 	// IToolboxApplication
-	virtual void Redraw();
+	virtual void Redraw() override;
 
-	virtual void Release() { delete this; }
+	virtual void Release() override { delete this; }
 
-	virtual IToolboxWindowManager *GetWindowManager() { return m_pWindowManager; }
+	virtual IToolboxWindowManager *GetWindowManager() override { return m_pWindowManager; }
 	// ~IToolboxApplication
 
 	// ISystemUserCallback
-	virtual bool OnError(const char *szErrorString) { return true; }
+	virtual bool OnError(const char *szErrorString) override { return true; }
 
-	virtual bool OnSaveDocument() { return true; }
+	virtual bool OnSaveDocument() override { return true; }
 
-	virtual void OnProcessSwitch() {}
+	virtual void OnProcessSwitch() override {}
 
-	virtual void OnInitProgress(const char *sProgressMsg);
+	virtual void OnInitProgress(const char *sProgressMsg) override;
 
-	virtual void OnInit(ISystem *pSystem);
+	virtual void OnInit(ISystem *pSystem) override;
 
-	virtual void GetMemoryUsage(ICrySizer* pSizer) {}
+	virtual void GetMemoryUsage(ICrySizer* pSizer) override {}
 
-	virtual void OnUpdate();
+	virtual void OnUpdate() override;
 	// ~ISystemUserCallback
 
 	void PostInit();
@@ -73,6 +73,7 @@ protected:
 	void SetupDarkStyle();
 
 	CMainWindow *m_pMainWindow;
+
 	CWindowManager *m_pWindowManager;
 
 	SToolboxStyle m_toolboxStyle;

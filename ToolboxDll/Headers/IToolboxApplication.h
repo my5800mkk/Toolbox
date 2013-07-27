@@ -2,6 +2,7 @@
 #define __I_TOOLBOX_APPLICATION__
 
 struct IToolboxWindowManager;
+struct IToolboxComponentManager;
 
 struct IToolboxApplication
 {

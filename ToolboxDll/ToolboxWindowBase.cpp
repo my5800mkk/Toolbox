@@ -1,11 +1,16 @@
 #include "StdAfx.h"
 #include "ToolboxWindowBase.h"
 
+#include "RenderUtils.h"
+
+#include "Button.h"
+
 #include <IRenderer.h>
 #include <IRenderAuxGeom.h>
 
 CToolboxWindowBase::CToolboxWindowBase()
 	: m_modifierState(eModifierState_None)
+	, m_pDockOwner(nullptr)
 {
 }
 
@@ -114,6 +119,29 @@ bool CToolboxWindowBase::IsMinimized()
 IToolboxWindow *CToolboxWindowBase::GetWindowParent()
 {
 	return g_pToolbox->GetWindowManager()->FindToolboxWindow((WIN_HWND)GetParent(m_hWnd));
+}
+
+const char *CToolboxWindowBase::GetTitle()
+{
+	auto title = new char[256]; 
+	GetWindowText(m_hWnd, title, 256);
+
+	return title;
+}
+
+IButton *CToolboxWindowBase::CreateButton(const char *texturePath)
+{
+	return new CButton(this, texturePath);
+}
+
+void CToolboxWindowBase::RegisterListener(IToolboxWindowListener *pListener)
+{
+	m_listeners.push_back(pListener);
+}
+
+void CToolboxWindowBase::UnregisterListener(IToolboxWindowListener *pListener)
+{
+	stl::find_and_erase(m_listeners, pListener);
 }
 
 void CToolboxWindowBase::SetParentOf(IToolboxWindow *pChild)
@@ -265,19 +293,24 @@ uint32 CToolboxWindowBase::ShowResizeCursor(int x, int y)
 	return resizeState;
 }
 
+int CToolboxWindowBase::GetTopBarHeight(SToolboxStyle *pStyle)
+{
+	if(IsDocked())
+		return pStyle->moverSize;
+
+	return pStyle->topBarHeight;
+}
+
 void CToolboxWindowBase::DrawWindowBorder(float width, float height)
 {
 	IRenderAuxGeom *pRenderAuxGeom = gEnv->pRenderer->GetIRenderAuxGeom();
 
-	width -= 1;
-	height -= 1;
-
 	ColorB borderColor = g_pToolbox->GetWindowStyle()->toolWindowBorderColor;
 
 	// top
-	gEnv->pRenderer->GetIRenderAuxGeom()->DrawLine(Vec3(0, 0, 0), borderColor, Vec3(width, 0, 0), borderColor);
+	gEnv->pRenderer->GetIRenderAuxGeom()->DrawLine(Vec3(0, 1, 0), borderColor, Vec3(width, 1, 0), borderColor);
 	// left
-	gEnv->pRenderer->GetIRenderAuxGeom()->DrawLine(Vec3(0, 0, 0), borderColor, Vec3(0, height, 0), borderColor);
+	gEnv->pRenderer->GetIRenderAuxGeom()->DrawLine(Vec3(1, 0, 0), borderColor, Vec3(1, height, 0), borderColor);
 	// bottom
 	gEnv->pRenderer->GetIRenderAuxGeom()->DrawLine(Vec3(0, height, 0), borderColor, Vec3(width, height, 0), borderColor);
 	// right
@@ -302,7 +335,17 @@ void CToolboxWindowBase::SetModifierState(unsigned int moveState)
 //////////////////////////////////////////////////
 void CToolboxWindowBase::OnRender(int width, int height)
 {
-	DrawWindowBorder((float)width, (float)height);
+	INVOKE_LISTENERS(OnRender(this, width, height));
+
+	// If docked, draw the docked window mover.
+	if(IsDocked())
+	{
+		SToolboxStyle *pStyle = g_pToolbox->GetWindowStyle();
+
+		SRenderUtils::DrawBox(Vec2(ZERO), Vec2((float)width, (float)pStyle->moverSize), pStyle->moverColor);
+	}
+	else if(!IsMaximized())
+		DrawWindowBorder((float)width, (float)height);
 }
 
 void CToolboxWindowBase::OnMouseMove(int x, int y)
@@ -366,6 +409,8 @@ void CToolboxWindowBase::OnLeftMouseButtonDown(int x, int y)
 		ReleaseCapture();
 		SendMessage(m_hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
 	}
+
+	INVOKE_LISTENERS(OnLeftMouseButtonDown(this, x, y));
 }
 
 void CToolboxWindowBase::OnLeftMouseButtonUp(int x, int y)
@@ -373,6 +418,8 @@ void CToolboxWindowBase::OnLeftMouseButtonUp(int x, int y)
 	ReleaseCapture();
 
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
+
+	INVOKE_LISTENERS(OnLeftMouseButtonUp(this, x, y));
 }
 
 void CToolboxWindowBase::OnMove(int x, int y)

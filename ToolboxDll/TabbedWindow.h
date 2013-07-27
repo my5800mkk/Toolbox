@@ -1,15 +1,15 @@
 #pragma once
 
-#include "ToolboxWindow.h"
+#include "DockWindow.h"
 
 class CTabbedWindow
-	: public CToolboxWindow
+	: public CDockWindow
 {
 public:
 	CTabbedWindow();
 	~CTabbedWindow();
 
-	// CToolboxWindow
+	// CDockWindow
 	virtual void Redraw() override;
 	virtual void OnRender(int width, int height) override;
 
@@ -22,7 +22,7 @@ public:
 	virtual void OnResize(int width, int height) override;
 
 	virtual bool CanMove() override { return false; }
-	// ~CToolboxWindow
+	// ~CDockWindow
 
 	void AttachTab(IToolboxComponent *pComponent, bool activate = true);
 	bool DetachTab(IToolboxComponent *pComponent);

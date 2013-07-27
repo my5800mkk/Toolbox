@@ -1,10 +1,13 @@
 #include "StdAfx.h"
 #include "WindowManager.h"
 
-#include "ToolboxWindow.h"
+#include "DockWindow.h"
 #include "MainWindow.h"
 #include "TabbedWindow.h"
 #include "DialogWindow.h"
+
+#include "EditModeToolbar.h"
+#include "Rollupbar.h"
 
 #include "resource1.h"
 
@@ -12,12 +15,21 @@ CWindowManager::CWindowManager()
 {
 	RegisterWindowClass();
 	RegisterDockedWindowClass();
-
+	
+	///////////////////////////////////
+	// Base window types
+	///////////////////////////////////
 	REGISTER_WINDOW_TYPE(this, "MainWindow", EWindowType_Window, CMainWindow);
-	REGISTER_WINDOW_TYPE(this, "ToolboxWindow", EWindowType_Window, CToolboxWindow);
+	REGISTER_WINDOW_TYPE(this, "ToolboxWindow", EWindowType_Window, CDockWindow);
 	REGISTER_WINDOW_TYPE(this, "TabbedWindow", EWindowType_TabContainer, CTabbedWindow);
 
 	REGISTER_WINDOW_TYPE(this, "DialogWindow", EWindowType_Dialog, CDialogWindow);
+
+	///////////////////////////////////
+	// Specific windows
+	///////////////////////////////////
+	REGISTER_WINDOW_TYPE(this, "EditModeToolbar", EWindowType_Window, CEditModeToolbar);
+	REGISTER_WINDOW_TYPE(this, "Rollupbar", EWindowType_Window, CRollupbar);
 }
 
 CWindowManager::~CWindowManager()
@@ -213,6 +225,9 @@ LRESULT CALLBACK CWindowManager::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			case WM_MOVE:
 				{
 					pWindow->OnMove(LOWORD(lParam), HIWORD(lParam));
+
+					if(IToolboxWindow *pWindowParent = pWindow->GetWindowParent())
+						pWindowParent->OnChildMoved(pWindow, LOWORD(lParam), HIWORD(lParam));
 				}
 				break;
 			case WM_SIZE:
@@ -232,7 +247,12 @@ LRESULT CALLBACK CWindowManager::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 						pWindow->OnShow();
 						break;*/
 					default:
-						pWindow->OnResize(LOWORD(lParam), HIWORD(lParam));
+						{
+							pWindow->OnResize(LOWORD(lParam), HIWORD(lParam));
+
+							if(IToolboxWindow *pWindowParent = pWindow->GetWindowParent())
+								pWindowParent->OnChildResized(pWindow, LOWORD(lParam), HIWORD(lParam));
+						}
 					}
 				}
 				break;

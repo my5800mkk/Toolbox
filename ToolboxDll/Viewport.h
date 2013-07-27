@@ -10,7 +10,7 @@
 
 #include "Toolbox.h"
 
-#include  "ToolboxWindow.h"
+#include  "DockWindow.h"
 
 class CViewport
 	: public IToolboxComponent

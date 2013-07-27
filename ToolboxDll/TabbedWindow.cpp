@@ -14,7 +14,7 @@ CTabbedWindow::~CTabbedWindow()
 
 void CTabbedWindow::Redraw()
 {
-	CToolboxWindow::Redraw();
+	CDockWindow::Redraw();
 
 	if(m_pActiveTab != nullptr)
 		m_pActiveTab->Redraw();
@@ -206,14 +206,14 @@ STextDrawContext CTabbedWindow::GetTabSize(const char *title, int &xOrigin, int 
 
 void CTabbedWindow::OnMove(int x, int y)
 {
-	CToolboxWindow::OnMove(x, y);
+	CDockWindow::OnMove(x, y);
 
 	ResizeActiveTab();
 }
 
 void CTabbedWindow::OnResize(int width, int height)
 {
-	CToolboxWindow::OnResize(width, height);
+	CDockWindow::OnResize(width, height);
 
 	ResizeActiveTab();
 }
@@ -254,12 +254,12 @@ void CTabbedWindow::OnMouseMove(int x, int y)
 	}
 
 	if(!bHandled)
-		CToolboxWindow::OnMouseMove(x, y);
+		CDockWindow::OnMouseMove(x, y);
 }
 
 void CTabbedWindow::OnLeftMouseButtonDown(int x, int y)
 {
-	CToolboxWindow::OnLeftMouseButtonDown(x, y);
+	CDockWindow::OnLeftMouseButtonDown(x, y);
 
 	POINT cursorPoint;
 
