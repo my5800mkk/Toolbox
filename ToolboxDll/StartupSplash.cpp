@@ -67,7 +67,12 @@ LRESULT CALLBACK CStartupSplash::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	{
 	case WM_CREATE:
 		{
-			HBITMAP hBitmap = (HBITMAP)LoadImage(GetModuleHandle(0), "D:\\Dev\\CryENGINE_FullCode_GFx_PC_v3_4_5_6665 - Copy\\Game\\Toolbox\\Splash.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+			char buffer[MAX_PATH];
+			GetCurrentDirectory(MAX_PATH, buffer); 
+
+			auto fileName = string(buffer).append("\\Game\\Toolbox\\Splash.bmp");;
+
+			HBITMAP hBitmap = (HBITMAP)LoadImage(GetModuleHandle(0), fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 			if(hBitmap == nullptr)
 				CryMessageBox("Failed to load startup splash!", "Toolbox splash load!", 0);
 
