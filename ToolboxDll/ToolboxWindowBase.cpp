@@ -5,6 +5,8 @@
 
 #include "Button.h"
 
+#include <IToolboxWindowManager.h>
+
 #include <IRenderer.h>
 #include <IRenderAuxGeom.h>
 
@@ -184,6 +186,8 @@ void CToolboxWindowBase::Resize(RECT area)
 
 void CToolboxWindowBase::Redraw()
 {
+	FUNCTION_PROFILER_FAST(GetISystem(), PROFILE_EDITOR, gEnv->bProfilerEnabled);
+
 	if(gEnv == nullptr)
 		return;
 
@@ -235,7 +239,7 @@ void CToolboxWindowBase::Redraw()
 		m_queuedText.clear();
 	}
 
-	gEnv->pRenderer->EF_EndEf3D(SHDF_STREAM_SYNC, -1, -1);
+	gEnv->pRenderer->EF_EndEf2D(true);
 
 	gEnv->pRenderer->Set2DMode(false, clientRect.right, clientRect.bottom);
 

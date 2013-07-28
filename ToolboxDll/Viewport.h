@@ -12,8 +12,10 @@
 
 #include  "DockWindow.h"
 
+#include <IViewportManager.h>
+
 class CViewport
-	: public IToolboxComponent
+	: public IToolboxViewport
 {
 public:
 	CViewport(HWND hWnd);
@@ -33,8 +35,7 @@ public:
 	virtual void Resize(RECT area) override;
 	// ~IToolboxComponent
 
-	void Render() {}
-
+	void Render();
 
 protected:
 	HWND m_hWnd;

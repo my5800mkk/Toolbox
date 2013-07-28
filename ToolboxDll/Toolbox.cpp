@@ -6,6 +6,7 @@
 
 #include "StartupSplash.h"
 
+#include "ViewportManager.h"
 #include "Viewport.h"
 
 #include "SystemEventListener_Toolbox.h"
@@ -22,6 +23,7 @@ CToolboxApplication::CToolboxApplication(SSystemInitParams &initParams, HMODULE 
 	m_pStartupSplash = new CStartupSplash();
 
 	m_pWindowManager = new CWindowManager();
+	m_pViewportManager = new CViewportManager();
 
 	initParams.pUserCallback = this;
 	initParams.bEditor = true;
@@ -73,6 +75,48 @@ void CToolboxApplication::PostInit()
 	StartGameContext(true);
 
 	Redraw();
+
+	Run();
+}
+
+void CToolboxApplication::Run()
+{
+	for(;;)
+	{
+		MSG msg;
+
+		if (PeekMessage( &msg, NULL, 0, 0, PM_REMOVE))
+		{
+			if (msg.message != WM_QUIT)
+			{
+				CryLogAlways("%i", msg.message);
+
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else
+				break;
+		}
+		else
+			Update();
+	}
+}
+
+bool CToolboxApplication::Update()
+{
+	m_pViewportManager->Update();
+
+	return true;
+}
+
+IToolboxWindowManager *CToolboxApplication::GetWindowManager()
+{
+	return m_pWindowManager;
+}
+
+IToolboxViewportManager *CToolboxApplication::GetViewportManager()
+{
+	return m_pViewportManager;
 }
 
 bool CToolboxApplication::StartGameContext(bool start)

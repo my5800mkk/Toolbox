@@ -72,6 +72,12 @@
     <ClInclude Include="Headers\IIcon.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="ViewportManager.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IViewportManager.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -116,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="DockWindow.cpp">
       <Filter>Windows\DockWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewportManager.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -97,6 +97,12 @@ IToolboxWindow *CWindowManager::SpawnWindow(const char *className, const char *n
 	return nullptr;
 }
 
+void CWindowManager::CloseWindow(IToolboxWindow *pWindow)
+{
+	stl::find_and_erase(m_windows, pWindow);
+	delete pWindow;
+}
+
 HWND CWindowManager::CreateToolboxHwnd(const char *name, int width, int height, int x, int y)
 {
 	HWND hWnd = CreateWindow("CryToolboxWindow", name, WS_VISIBLE, x, y, width, height, nullptr, nullptr, GetModuleHandle(0), nullptr);
@@ -280,7 +286,12 @@ LRESULT CALLBACK CWindowManager::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				}
 				break;
 			case WM_PAINT:
-				return 0;
+				{
+					PAINTSTRUCT paintStruct;
+					BeginPaint(hWnd, &paintStruct);
+					EndPaint(hWnd, &paintStruct);
+				}
+				return 0L;
 				// Redraw when focus is changed, to get rid of the frame.
 			case WM_KILLFOCUS:
 			case WM_SETFOCUS:

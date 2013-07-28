@@ -44,6 +44,8 @@ public:
 
 	virtual IToolboxWindow *SpawnWindow(const char *className, const char *name, int width, int height, int x, int y) override;
 	
+	virtual void CloseWindow(IToolboxWindow *pWindow) override;
+
 	virtual int GetWindowCount() override { return m_windows.size(); }
 	virtual IToolboxWindow *GetWindow(int index) override { return m_windows.at(index); }
 	// ~IToolboxWindowManager

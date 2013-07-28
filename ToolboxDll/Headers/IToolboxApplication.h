@@ -4,6 +4,8 @@
 struct IToolboxWindowManager;
 struct IToolboxComponentManager;
 
+struct IToolboxViewportManager;
+
 struct IToolboxApplication
 {
 	virtual void Redraw() = 0;
@@ -11,6 +13,8 @@ struct IToolboxApplication
 	virtual void Release() = 0;
 
 	virtual IToolboxWindowManager *GetWindowManager() = 0;
+
+	virtual IToolboxViewportManager *GetViewportManager() = 0;
 
 	/// <summary>
 	/// Entry point of the dll, used to set up Toolbox.

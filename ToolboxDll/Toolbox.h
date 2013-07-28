@@ -15,11 +15,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-#include "WindowManager.h"
-
 #include <IGameFramework.h>
 
 class CMainWindow;
+
+class CWindowManager;
+class CViewportManager;
 
 class CStartupSplash;
 
@@ -38,7 +39,9 @@ public:
 
 	virtual void Release() override { delete this; }
 
-	virtual IToolboxWindowManager *GetWindowManager() override { return m_pWindowManager; }
+	virtual IToolboxWindowManager *GetWindowManager() override;
+
+	virtual IToolboxViewportManager *GetViewportManager() override;
 	// ~IToolboxApplication
 
 	// ISystemUserCallback
@@ -59,6 +62,9 @@ public:
 
 	void PostInit();
 
+	void Run();
+	bool Update();
+
 	bool StartGameContext(bool start);
 	bool SetGameMode(bool gameMode);
 
@@ -75,6 +81,7 @@ protected:
 	CMainWindow *m_pMainWindow;
 
 	CWindowManager *m_pWindowManager;
+	CViewportManager *m_pViewportManager;
 
 	SToolboxStyle m_toolboxStyle;
 

@@ -13,12 +13,17 @@ CViewport::~CViewport()
 {
 }
 
-void CViewport::Update()
+void CViewport::Redraw()
 {
-	Redraw();
+	Render();
 }
 
-void CViewport::Redraw()
+void CViewport::Update()
+{
+	Render();
+}
+
+void CViewport::Render()
 {
 	gEnv->pRenderer->SetCurrentContext(m_hWnd);
 
@@ -40,8 +45,6 @@ void CViewport::Redraw()
 	gEnv->pSystem->RenderBegin();
 	
 	gEnv->pSystem->SetViewCamera(m_camera);
-
-	Render();
 
 	gEnv->pSystem->RenderEnd();
 

@@ -3,6 +3,8 @@
 
 #include "RenderUtils.h"
 
+#include <IToolboxWindowManager.h>
+
 CTabbedWindow::CTabbedWindow()
 	: m_pActiveTab(nullptr)
 {

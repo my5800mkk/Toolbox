@@ -536,6 +536,7 @@
     <ClInclude Include="Headers\IToolboxComponent.h" />
     <ClInclude Include="Headers\IToolboxWindow.h" />
     <ClInclude Include="Headers\IToolboxWindowManager.h" />
+    <ClInclude Include="Headers\IViewportManager.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="RenderUtils.h" />
     <ClInclude Include="resource1.h" />
@@ -550,6 +551,7 @@
     <ClInclude Include="DockWindow.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="ToolboxWindowBase.h" />
+    <ClInclude Include="ViewportManager.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +578,7 @@
     <ClCompile Include="DockWindow.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="ToolboxWindowBase.cpp" />
+    <ClCompile Include="ViewportManager.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
