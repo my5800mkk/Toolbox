@@ -40,6 +40,8 @@ struct IToolboxWindowManager
 
 	virtual IToolboxWindow *SpawnWindow(const char *className, const char *name, int width, int height, int x, int y) = 0;
 
+	virtual void CloseWindow(IToolboxWindow *pWindow) = 0;
+
 	virtual int GetWindowCount() = 0;
 	virtual IToolboxWindow *GetWindow(int index) = 0;
 };

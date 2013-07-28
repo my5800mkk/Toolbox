@@ -22,41 +22,46 @@ public:
 	~CButton();
 
 	// IButton
-	virtual void AddListener(IButtonEventListener *pListener) override { m_listeners.push_back(pListener); }
-	virtual void RemoveListener(IButtonEventListener *pListener) override { stl::find_and_erase(m_listeners, pListener); }
+	virtual void AddEventCallback(EButtonEvent event, TEventCallback callback) override;
 
-	virtual void AddOnPressFunc(TEventFunction eventFunc) override { m_onPress = eventFunc; }
-	virtual void AddOnReleaseFunc(TEventFunction eventFunc) override { m_onRelease = eventFunc; }
-	virtual void AddOnDoublePressFunc(TEventFunction eventFunc) override { m_onDoublePress = eventFunc; }
+	virtual SButtonEventState *GetEventState(EButtonEvent event) override { return &m_pEventStates[event]; }
 
 	virtual Vec2 GetSize() override { return m_size; }
 	virtual void SetSize(Vec2 size) override { m_size = size; }
 
 	virtual Vec2 GetPosition() override { return m_position; }
 	virtual void SetPosition(Vec2 pos) override { m_position = pos; }
+
+	virtual void Hide(bool hide) override { m_bHidden = hide; }
+	virtual bool IsHidden() override { return m_bHidden; }
 	// ~IButton
 
 	// IToolboxWindowListener
 	virtual void OnRender(IToolboxWindow *pWindow, int width, int height) override;
 
+	virtual void OnMouseMove(IToolboxWindow *pWindow, int x, int y) override;
+
 	virtual void OnLeftMouseButtonDown(IToolboxWindow *pWindow, int x, int y) override;
 	virtual void OnLeftMouseButtonUp(IToolboxWindow *pWindow, int x, int y) override;
-	virtual void OnLeftMouseButtonDoubleClick(int x, int y) override;
+	virtual void OnLeftMouseButtonDoubleClick(IToolboxWindow *pWindow, int x, int y) override;
 	// ~IToolboxWindowListener
 
 	bool CheckHit(int x, int y);
+	void TriggerCallbacks(EButtonEvent event);
+
+	SButtonEventState *GetCurrentEventState();
 
 protected:
-	ITexture *m_pTexture;
-
 	Vec2 m_size;
 	Vec2 m_position;
 
-	std::vector<IButtonEventListener *> m_listeners;
+	bool m_bHidden;
+	bool m_bHasCallbacks;
 
-	TEventFunction m_onPress;
-	TEventFunction m_onRelease;
-	TEventFunction m_onDoublePress;
+	EButtonEvent m_lastEvent;
+
+	std::vector<IButton::TEventCallback> m_eventCallbacks[EButtonEvent_Last];
+	SButtonEventState m_pEventStates[EButtonEvent_Last];
 
 	IToolboxWindow *m_pOwner;
 };

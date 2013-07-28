@@ -59,6 +59,11 @@ void CToolboxWindowBase::PostInitialize()
 	Redraw();
 }
 
+void CToolboxWindowBase::Close()
+{
+	g_pToolbox->GetWindowManager()->CloseWindow(this);
+}
+
 bool CToolboxWindowBase::CanResize(uint32 resizeState)
 {
 	// Can't resize if this side of the window is in direct contact with the edge of the work area.
@@ -96,6 +101,11 @@ void CToolboxWindowBase::Maximize()
 void CToolboxWindowBase::Minimize()
 {
 	ShowWindow(m_hWnd, SW_SHOWMINIMIZED);
+}
+
+void CToolboxWindowBase::Restore()
+{
+	ShowWindow(m_hWnd, SW_RESTORE);
 }
 
 bool CToolboxWindowBase::IsMaximized()
@@ -387,6 +397,8 @@ void CToolboxWindowBase::OnMouseMove(int x, int y)
 			}
 		}
 	}
+
+	INVOKE_LISTENERS(OnMouseMove(this, x, y));
 }
 
 void CToolboxWindowBase::OnMouseLeave()
@@ -420,6 +432,11 @@ void CToolboxWindowBase::OnLeftMouseButtonUp(int x, int y)
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
 
 	INVOKE_LISTENERS(OnLeftMouseButtonUp(this, x, y));
+}
+
+void CToolboxWindowBase::OnLeftMouseButtonDoubleClick(int x, int y)
+{
+	INVOKE_LISTENERS(OnLeftMouseButtonDoubleClick(this, x, y))
 }
 
 void CToolboxWindowBase::OnMove(int x, int y)

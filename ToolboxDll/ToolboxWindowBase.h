@@ -59,11 +59,14 @@ public:
 	virtual void Initialize(WIN_HWND hWnd) override;
 	virtual void PostInitialize() override;
 
+	virtual void Close() override;
+
 	virtual bool CanResize(uint32 resizeState) override;
 	virtual bool CanMove() override { return true; }
 
 	virtual void Maximize() override;
 	virtual void Minimize() override;
+	virtual void Restore() override;
 
 	virtual bool IsMaximized() override;
 	virtual bool IsMinimized() override;
@@ -96,6 +99,7 @@ public:
 
 	virtual void OnLeftMouseButtonDown(int x, int y) override;
 	virtual void OnLeftMouseButtonUp(int x, int y) override;
+	virtual void OnLeftMouseButtonDoubleClick(int x, int y) override;
 
 	virtual void OnMove(int x, int y) override;
 	//virtual void OnChildMoved(IToolboxWindow *pWindow, int x, int y) override;

@@ -22,11 +22,23 @@ public:
 	virtual void OnClose() override;
 	// ~CDockWindow
 
-	static void OnLogoPressed();
+private:
+	// Button events
+	static void OnLogoPressed(IToolboxWindow *pParentWindow);
+
+	static void OnMinimizeButton(IToolboxWindow *pParentWindow);
+	static void OnMaximizeButton(IToolboxWindow *pParentWindow);
+	static void OnRestoreButton(IToolboxWindow *pParentWindow);
+	static void OnCloseButton(IToolboxWindow *pParentWindow);
 
 private:
 	IToolboxWindow *m_pEditModeToolbar;
 	IToolboxWindow *m_pRollupbarWindow;
 
 	IButton *m_pLogoButton;
+
+	IButton *m_pMinimizeButton;
+	IButton *m_pMaximizeButton;
+	IButton *m_pRestoreButton;
+	IButton *m_pCloseButton;
 };

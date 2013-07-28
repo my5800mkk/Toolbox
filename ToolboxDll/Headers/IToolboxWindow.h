@@ -22,9 +22,11 @@ struct IToolboxWindowListener
 {
 	virtual void OnRender(IToolboxWindow *pWindow, int width, int height) {}
 
+	virtual void OnMouseMove(IToolboxWindow *pWindow, int x, int y) {}
+
 	virtual void OnLeftMouseButtonDown(IToolboxWindow *pWindow, int x, int y) {}
 	virtual void OnLeftMouseButtonUp(IToolboxWindow *pWindow, int x, int y) {}
-	virtual void OnLeftMouseButtonDoubleClick(int x, int y) {}
+	virtual void OnLeftMouseButtonDoubleClick(IToolboxWindow *pWindow, int x, int y) {}
 };
 
 struct IToolboxWindow
@@ -33,11 +35,14 @@ struct IToolboxWindow
 	virtual void Initialize(WIN_HWND hWnd) = 0;
 	virtual void PostInitialize() = 0;
 
+	virtual void Close() = 0;
+
 	virtual bool CanResize(uint32 resizeState) = 0;
 	virtual bool CanMove() = 0;
 
 	virtual void Maximize() = 0;
 	virtual void Minimize() = 0;
+	virtual void Restore() = 0;
 
 	virtual bool IsMaximized() = 0;
 	virtual bool IsMinimized() = 0;
