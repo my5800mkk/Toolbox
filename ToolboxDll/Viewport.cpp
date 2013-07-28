@@ -34,17 +34,9 @@ void CViewport::Render()
 		return;
 	}
 
-	RECT windowRect;
-	if(!GetWindowRect(m_hWnd, &windowRect))
-	{
-		CryLogAlways("[Warning] Failed to get window rect in CViewport::Render");
-		return;
-	}
-
 	int width = clientRect.right - clientRect.left;
 	int height = clientRect.bottom - clientRect.top;
 
-	CryLogAlways("Rendering viewport at size %ix%i", width, height);
 	gEnv->pRenderer->ChangeViewport(0, 0, width, height, true);
 
 	gEnv->pRenderer->SetCamera(m_camera);

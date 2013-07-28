@@ -239,7 +239,7 @@ void CToolboxWindowBase::Redraw()
 		m_queuedText.clear();
 	}
 
-	gEnv->pRenderer->EF_EndEf2D(true);
+	gEnv->pRenderer->EF_EndEf3D(SHDF_STREAM_SYNC, -1, -1);
 
 	gEnv->pRenderer->Set2DMode(false, clientRect.right, clientRect.bottom);
 
