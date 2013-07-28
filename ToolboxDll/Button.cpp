@@ -7,14 +7,10 @@ CButton::CButton(IToolboxWindow *pParent, const char *texturePath)
 	: m_pOwner(pParent)
 	, m_bHidden(false)
 	, m_lastEvent(EButtonEvent_None)
-	, m_bHasCallbacks(false)
 {
 	ITexture *pTexture = gEnv->pRenderer->EF_LoadTexture(texturePath, FT_NOMIPS | FT_FILESINGLE | FT_FILTER_LINEAR);
 	CRY_ASSERT(pTexture);
-	m_pEventStates[EButtonEvent_None].pTexture = pTexture;
-	
-	m_pEventStates[EButtonEvent_OnMouseOver].color.a = 0.2f;
-	m_pEventStates[EButtonEvent_OnClick].color.a = 0.5f;
+	m_eventStates[EButtonEvent_None].pTexture = pTexture;
 
 	m_position = Vec2(0, 0);
 	m_size = Vec2((float)pTexture->GetWidth(), (float)pTexture->GetHeight());
@@ -36,21 +32,19 @@ void CButton::OnRender(IToolboxWindow *pWindow, int width, int height)
 	
 	ITexture *pTexture = pState->pTexture;
 	if(pTexture == nullptr)
-		pTexture = m_pEventStates[EButtonEvent_None].pTexture;
+		pTexture = m_eventStates[EButtonEvent_None].pTexture;
 
 	SRenderUtils::DrawTexture2D(m_position.x, m_position.y, m_size.x, m_size.y, pTexture->GetTextureID(), pState->color.r, pState->color.g, pState->color.b, pState->color.a);
 }
 
 SButtonEventState *CButton::GetCurrentEventState()
 {
-	return &m_pEventStates[m_lastEvent];
+	return &m_eventStates[m_lastEvent];
 }
 
 void CButton::AddEventCallback(EButtonEvent event, TEventCallback callback)
 {
 	m_eventCallbacks[event].push_back(callback);
-
-	m_bHasCallbacks = true;
 }
 
 void CButton::TriggerCallbacks(EButtonEvent event)
@@ -60,8 +54,11 @@ void CButton::TriggerCallbacks(EButtonEvent event)
 
 	m_lastEvent = event;
 
-	if(m_bHasCallbacks)
+	if(m_eventStates[event].pTexture != nullptr 
+		|| m_eventStates[event].color != ColorF(1.f))
+	{
 		m_pOwner->Redraw();
+	}
 }
 
 void CButton::OnMouseMove(IToolboxWindow *pWindow, int x, int y)

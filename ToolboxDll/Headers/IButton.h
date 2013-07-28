@@ -21,7 +21,7 @@ struct SButtonEventState
 {
 	SButtonEventState()
 		: pTexture(nullptr)
-		, color(1, 1, 1, 1) {}
+		, color(1.f) {}
 
 	~SButtonEventState()
 	{

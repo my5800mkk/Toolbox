@@ -24,7 +24,7 @@ public:
 	// IButton
 	virtual void AddEventCallback(EButtonEvent event, TEventCallback callback) override;
 
-	virtual SButtonEventState *GetEventState(EButtonEvent event) override { return &m_pEventStates[event]; }
+	virtual SButtonEventState *GetEventState(EButtonEvent event) override { return &m_eventStates[event]; }
 
 	virtual Vec2 GetSize() override { return m_size; }
 	virtual void SetSize(Vec2 size) override { m_size = size; }
@@ -56,12 +56,11 @@ protected:
 	Vec2 m_position;
 
 	bool m_bHidden;
-	bool m_bHasCallbacks;
 
 	EButtonEvent m_lastEvent;
 
 	std::vector<IButton::TEventCallback> m_eventCallbacks[EButtonEvent_Last];
-	SButtonEventState m_pEventStates[EButtonEvent_Last];
+	SButtonEventState m_eventStates[EButtonEvent_Last];
 
 	IToolboxWindow *m_pOwner;
 };
