@@ -11,12 +11,15 @@
 
 #include "SystemEventListener_Toolbox.h"
 
+#include <IEntitySystem.h>
+
 CToolboxApplication *g_pToolbox = 0;
 
 CToolboxApplication::CToolboxApplication(SSystemInitParams &initParams, HMODULE hDll)
 	: m_bStartedGameContext(false)
 	, m_bGameMode(false)
 	, m_hModule(hDll)
+	, m_bLoadedLevel(false)
 	, m_bInitialized(false)
 {
 	g_pToolbox = this;
@@ -195,7 +198,7 @@ void CToolboxApplication::SetupDefaultStyle()
 	m_toolboxStyle = SToolboxStyle();
 
 	m_toolboxStyle.backgroundColor = ColorF(239 / 255.f, 239 / 255.f, 242 / 255.f);
-	m_toolboxStyle.viewportClearColor = ColorF(0, 0, 0);
+	m_toolboxStyle.viewportClearColor = ColorF(0.f);
 
 	m_toolboxStyle.toolWindowBorderColor = ColorB(214, 214, 214);
 
@@ -218,6 +221,7 @@ void CToolboxApplication::SetupDefaultStyle()
 	m_toolboxStyle.activeTabFontColor = ColorB(255, 255, 255);
 
 	m_toolboxStyle.pFont = gEnv->pCryFont->GetFont("roboto");
+	m_toolboxStyle.defaultFontColor = ColorB(51, 51, 51);
 }
 
 void CToolboxApplication::SetupDarkStyle()
@@ -235,4 +239,66 @@ void CToolboxApplication::Redraw()
 void CToolboxApplication::OnUpdate()
 {
 	m_pWindowManager->Update();
+}
+
+void CToolboxApplication::LoadLevel(const char *levelName)
+{
+	LOADING_TIME_PROFILE_SECTION(gEnv->pSystem);
+
+	GetISystem()->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_LEVEL_LOAD_START, 0, 0);
+
+	CryLogAlways("Loading level %s", levelName);
+
+	CryLogAlways("Finished level %s", levelName);
+
+	GetISystem()->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_LEVEL_LOAD_END, 0, 0);
+
+	m_bLoadedLevel = true;
+}
+
+void CToolboxApplication::CreateLevel(const char *levelName)
+{
+	LOADING_TIME_PROFILE_SECTION(gEnv->pSystem);
+
+	CryLogAlways("Creating empty level %s", levelName);
+
+	string levelPath = PathUtil::GetGameFolder().append("/Levels/").append(levelName).append("/");
+	string editorFile = levelPath.append(levelName).append(".tbx");
+
+	gEnv->pCryPak->MakeDir(levelPath, true);
+
+	XmlNodeRef todRoot = GetISystem()->LoadXmlFromFile("Toolbox/default_time_of_day.tod");
+	if(todRoot)
+	{
+		ITimeOfDay *pTimeOfDay = gEnv->p3DEngine->GetTimeOfDay();
+		pTimeOfDay->Serialize(todRoot, true);
+		pTimeOfDay->SetTime(12.0f, true);
+	}
+
+	// Reset systems
+	{
+		gEnv->pEntitySystem->Reset();
+		gEnv->p3DEngine->UnloadLevel();
+		gEnv->pPhysicalWorld->SetupEntityGrid(2, Vec3(ZERO), 128, 128, 4, 4, 1);
+	}
+
+	if(!gEnv->p3DEngine->InitLevelForEditor(levelPath, ""))
+	{
+		ToolboxWarning("Failed to initialize level");
+		return;
+	}
+
+	STerrainInfo terrainInfo;
+
+	terrainInfo.nHeightMapSize_InUnits = terrainInfo.nSectorSize_InMeters = 256;
+	terrainInfo.nUnitSize_InMeters = 1;
+	terrainInfo.nSectorsTableSize_InSectors = 1;
+	terrainInfo.fHeightmapZRatio = 0.003f;
+	terrainInfo.fOceanWaterLevel = 20;
+
+	gEnv->p3DEngine->CreateTerrain(terrainInfo);
+
+	GetISystem()->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_LEVEL_LOAD_END, 0, 0);
+
+	m_bLoadedLevel = true;
 }

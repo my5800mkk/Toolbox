@@ -16,6 +16,13 @@ struct IToolboxApplication
 
 	virtual IToolboxViewportManager *GetViewportManager() = 0;
 
+	virtual void LoadLevel(const char *levelName) = 0;
+	virtual void CreateLevel(const char *levelName) = 0;
+
+	virtual bool IsLevelLoaded() = 0;
+
+	virtual bool IsInitialized() = 0;
+
 	/// <summary>
 	/// Entry point of the dll, used to set up Toolbox.
 	/// </summary>

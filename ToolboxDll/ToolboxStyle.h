@@ -33,6 +33,7 @@ struct SToolboxStyle
 	ColorB activeTabFontColor;
 
 	IFFont *pFont;
+	ColorB defaultFontColor;
 };
 
 #endif // __TOOLBOX_STYLE__

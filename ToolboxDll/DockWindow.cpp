@@ -178,7 +178,6 @@ void SDockedWindowData::ResizeNeighbors(LPRECT area)
 		if(pLastNeighbor == nullptr)
 			return;
 
-		CryLogAlways("%i %s", lastDockState, pLastNeighbor->pWindow->GetTitle());
 		switch(lastDockState)
 		{
 		case EDockState_LeftOf:

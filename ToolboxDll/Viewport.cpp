@@ -27,12 +27,24 @@ void CViewport::Render()
 {
 	gEnv->pRenderer->SetCurrentContext(m_hWnd);
 
+	RECT clientRect;
+	if(!GetClientRect(m_hWnd, &clientRect))
+	{
+		CryLogAlways("[Warning] Failed to get client rect in CViewport::Render");
+		return;
+	}
+
 	RECT windowRect;
-	GetWindowRect(m_hWnd, &windowRect);
+	if(!GetWindowRect(m_hWnd, &windowRect))
+	{
+		CryLogAlways("[Warning] Failed to get window rect in CViewport::Render");
+		return;
+	}
 
-	int width = windowRect.right - windowRect.left;
-	int height = windowRect.bottom - windowRect.top;
+	int width = clientRect.right - clientRect.left;
+	int height = clientRect.bottom - clientRect.top;
 
+	CryLogAlways("Rendering viewport at size %ix%i", width, height);
 	gEnv->pRenderer->ChangeViewport(0, 0, width, height, true);
 
 	gEnv->pRenderer->SetCamera(m_camera);
@@ -46,6 +58,17 @@ void CViewport::Render()
 	
 	gEnv->pSystem->SetViewCamera(m_camera);
 
+	if(g_pToolbox->IsLevelLoaded())
+	{
+		gEnv->pRenderer->SetViewport(0, 0, width, height);
+		gEnv->p3DEngine->Update();
+		gEnv->p3DEngine->RenderWorld(SHDF_ALLOW_AO | SHDF_ALLOWPOSTPROCESS | SHDF_ALLOW_WATER | SHDF_ALLOWHDR | SHDF_ZPASS, &m_camera, 1, __FUNCTION__);
+	}
+	else
+	{
+
+	}
+
 	gEnv->pSystem->RenderEnd();
 
 	// Restore context
@@ -58,10 +81,6 @@ void CViewport::Resize(RECT area)
 	int height = area.bottom - area.top;
 
 	SetWindowPos(m_hWnd, nullptr, area.left, area.top, width, height, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-
-	gEnv->pRenderer->MakeMainContextActive();
-
-	gEnv->pRenderer->ChangeViewport(0, 0, width, height, true);
 
 	// Set up camera
 	m_camera.SetFrustum(width, height, DEG2RAD(60));

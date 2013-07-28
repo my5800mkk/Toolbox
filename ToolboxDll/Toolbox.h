@@ -43,6 +43,11 @@ public:
 
 	virtual IToolboxViewportManager *GetViewportManager() override;
 
+	virtual void LoadLevel(const char *levelName) override;
+	virtual void CreateLevel(const char *levelName) override;
+
+	virtual bool IsLevelLoaded() override { return m_bLoadedLevel; }
+
 	virtual bool IsInitialized() override { return m_bInitialized; }
 	// ~IToolboxApplication
 
@@ -93,6 +98,7 @@ protected:
 	bool m_bGameMode;
 
 	bool m_bInitialized;
+	bool m_bLoadedLevel;
 
 	HMODULE	m_hModule;
 };

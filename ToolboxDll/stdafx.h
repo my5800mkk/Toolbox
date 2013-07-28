@@ -44,6 +44,17 @@
 #define TOOLBOX_API
 #endif
 
+inline void ToolboxWarning( const char *format,... ) PRINTF_PARAMS(1, 2);
+inline void ToolboxWarning( const char *format,... )
+{
+	if (!format)
+		return;
+	va_list args;
+	va_start(args, format);
+	GetISystem()->WarningV(VALIDATOR_MODULE_EDITOR, VALIDATOR_WARNING, 0, nullptr, format, args );
+	va_end(args);
+}
+
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
