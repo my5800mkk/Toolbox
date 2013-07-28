@@ -42,6 +42,8 @@ public:
 	virtual IToolboxWindowManager *GetWindowManager() override;
 
 	virtual IToolboxViewportManager *GetViewportManager() override;
+
+	virtual bool IsInitialized() override { return m_bInitialized; }
 	// ~IToolboxApplication
 
 	// ISystemUserCallback
@@ -89,6 +91,8 @@ protected:
 
 	bool m_bStartedGameContext;
 	bool m_bGameMode;
+
+	bool m_bInitialized;
 
 	HMODULE	m_hModule;
 };

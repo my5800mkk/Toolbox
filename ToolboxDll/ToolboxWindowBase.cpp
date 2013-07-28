@@ -186,10 +186,10 @@ void CToolboxWindowBase::Resize(RECT area)
 
 void CToolboxWindowBase::Redraw()
 {
-	FUNCTION_PROFILER_FAST(GetISystem(), PROFILE_EDITOR, gEnv->bProfilerEnabled);
-
-	if(gEnv == nullptr)
+	if(!g_pToolbox->IsInitialized())
 		return;
+
+	FUNCTION_PROFILER_FAST(GetISystem(), PROFILE_EDITOR, gEnv->bProfilerEnabled);
 
 	// Enable the render context for this window.
 	gEnv->pRenderer->SetCurrentContext(m_hWnd);

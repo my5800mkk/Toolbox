@@ -17,6 +17,7 @@ CToolboxApplication::CToolboxApplication(SSystemInitParams &initParams, HMODULE 
 	: m_bStartedGameContext(false)
 	, m_bGameMode(false)
 	, m_hModule(hDll)
+	, m_bInitialized(false)
 {
 	g_pToolbox = this;
 
@@ -74,6 +75,8 @@ void CToolboxApplication::PostInit()
 
 	StartGameContext(true);
 
+	m_bInitialized = true;
+
 	Redraw();
 
 	Run();
@@ -89,8 +92,6 @@ void CToolboxApplication::Run()
 		{
 			if (msg.message != WM_QUIT)
 			{
-				CryLogAlways("%i", msg.message);
-
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
@@ -104,6 +105,9 @@ void CToolboxApplication::Run()
 
 bool CToolboxApplication::Update()
 {
+	if(!m_bInitialized)
+		return true;
+
 	m_pViewportManager->Update();
 
 	return true;
