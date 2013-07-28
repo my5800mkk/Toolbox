@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "Button.h"
 
+#include "RenderUtils.h"
+
 CButton::CButton(IToolboxWindow *pParent, const char *texturePath) 
 	: m_pOwner(pParent)
 	, m_bHidden(false)
@@ -30,21 +32,13 @@ void CButton::OnRender(IToolboxWindow *pWindow, int width, int height)
 	if(m_bHidden)
 		return;
 
-	float s[4],t[4];
-
-	s[0]=0;	t[0]=0;
-	s[1]=1;	t[1]=0;
-	s[2]=1;	t[2]=1;
-	s[3]=0;	t[3]=1;
-
 	SButtonEventState *pState = GetCurrentEventState();
 	
 	ITexture *pTexture = pState->pTexture;
 	if(pTexture == nullptr)
 		pTexture = m_pEventStates[EButtonEvent_None].pTexture;
 
-	CryLogAlways("Current state %i has alpha %f", m_lastEvent, pState->color.a);
-	gEnv->pRenderer->DrawImageWithUV(m_position.x, m_position.y, 0, m_size.x, m_size.y, pTexture->GetTextureID(), s, t, pState->color.r, pState->color.g, pState->color.b, pState->color.a);
+	SRenderUtils::DrawTexture2D(m_position.x, m_position.y, m_size.x, m_size.y, pTexture->GetTextureID(), pState->color.r, pState->color.g, pState->color.b, pState->color.a);
 }
 
 SButtonEventState *CButton::GetCurrentEventState()

@@ -21,6 +21,18 @@ struct SRenderUtils
 
 		pRenderAuxGeom->DrawTriangles(qVertices, 4, indices, 6, color);
 	}
+
+	static void DrawTexture2D(float xpos, float ypos, float width, float height, int textureId, float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f)
+	{
+		float s[4],t[4];
+
+		s[0]=0;	t[0]=0;
+		s[1]=1;	t[1]=0;
+		s[2]=1;	t[2]=1;
+		s[3]=0;	t[3]=1;
+
+		gEnv->pRenderer->DrawImageWithUV(xpos, ypos, 0, width, height, textureId, s, t, r, g, b, a);
+	}
 };
 
 #endif // __RENDER_UTILS_H__
