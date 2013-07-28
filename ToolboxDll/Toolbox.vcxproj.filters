@@ -17,9 +17,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Components\Viewports</Filter>
     </ClInclude>
-    <ClInclude Include="WindowManager.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -30,23 +27,23 @@
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="StartupSplash.h">
-      <Filter>Windows\StartupSplash</Filter>
+      <Filter>Windows\Base\StartupSplash</Filter>
     </ClInclude>
     <ClInclude Include="TabbedWindow.h">
-      <Filter>Windows\Tabbed</Filter>
+      <Filter>Windows\Base\Tabbed</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h">
-      <Filter>Windows\Main</Filter>
+      <Filter>Windows\Base\Main</Filter>
     </ClInclude>
     <ClInclude Include="RenderUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="resource1.h" />
     <ClInclude Include="DialogWindow.h">
-      <Filter>Windows\Dialogs</Filter>
+      <Filter>Windows\Base\Dialogs</Filter>
     </ClInclude>
     <ClInclude Include="ToolboxWindowBase.h">
-      <Filter>Windows</Filter>
+      <Filter>Windows\Base</Filter>
     </ClInclude>
     <ClInclude Include="Headers\IToolboxComponent.h">
       <Filter>Interfaces</Filter>
@@ -55,16 +52,16 @@
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="EditModeToolbar.h">
-      <Filter>Windows\Toolbars</Filter>
+      <Filter>Windows\Extensions\Toolbars</Filter>
     </ClInclude>
     <ClInclude Include="Rollupbar.h">
-      <Filter>Windows\Toolbars</Filter>
+      <Filter>Windows\Extensions\Toolbars</Filter>
     </ClInclude>
     <ClInclude Include="DockWindow.h">
-      <Filter>Windows\DockWindow</Filter>
+      <Filter>Windows\Base\DockWindow</Filter>
     </ClInclude>
     <ClInclude Include="StaticToolbar.h">
-      <Filter>Windows\Toolbars</Filter>
+      <Filter>Windows\Extensions\Toolbars</Filter>
     </ClInclude>
     <ClInclude Include="Headers\IButton.h">
       <Filter>Interfaces</Filter>
@@ -77,6 +74,12 @@
     </ClInclude>
     <ClInclude Include="Headers\IViewportManager.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Windows\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -93,38 +96,41 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Components\Viewports</Filter>
     </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
-      <Filter>Windows</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="StartupSplash.cpp">
-      <Filter>Windows\StartupSplash</Filter>
+      <Filter>Windows\Base\StartupSplash</Filter>
     </ClCompile>
     <ClCompile Include="TabbedWindow.cpp">
-      <Filter>Windows\Tabbed</Filter>
+      <Filter>Windows\Base\Tabbed</Filter>
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
-      <Filter>Windows\Main</Filter>
+      <Filter>Windows\Base\Main</Filter>
     </ClCompile>
     <ClCompile Include="DialogWindow.cpp">
-      <Filter>Windows\Dialogs</Filter>
+      <Filter>Windows\Base\Dialogs</Filter>
     </ClCompile>
     <ClCompile Include="ToolboxWindowBase.cpp">
-      <Filter>Windows</Filter>
+      <Filter>Windows\Base</Filter>
     </ClCompile>
     <ClCompile Include="EditModeToolbar.cpp">
-      <Filter>Windows\Toolbars</Filter>
+      <Filter>Windows\Extensions\Toolbars</Filter>
     </ClCompile>
     <ClCompile Include="Rollupbar.cpp">
-      <Filter>Windows\Toolbars</Filter>
+      <Filter>Windows\Extensions\Toolbars</Filter>
     </ClCompile>
     <ClCompile Include="DockWindow.cpp">
-      <Filter>Windows\DockWindow</Filter>
+      <Filter>Windows\Base\DockWindow</Filter>
     </ClCompile>
     <ClCompile Include="ViewportManager.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Windows\Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,25 +156,31 @@
       <UniqueIdentifier>{2b79f618-95c7-4ad4-a12f-b5ecdb63460d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Windows">
+      <UniqueIdentifier>{e4ce07ad-22b3-42a3-9ce7-f73496d57fa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Base">
       <UniqueIdentifier>{af162653-ff9f-415f-ae8d-829c931b213f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\StartupSplash">
+    <Filter Include="Windows\Base\StartupSplash">
       <UniqueIdentifier>{eddc4b60-2c84-4ba2-afde-93cf2dcfc153}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Tabbed">
+    <Filter Include="Windows\Base\Tabbed">
       <UniqueIdentifier>{fe93035f-eba6-4076-8325-9aa69bbf4d8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Main">
+    <Filter Include="Windows\Base\Main">
       <UniqueIdentifier>{a2ea38d0-45c7-44c3-87a2-f779d4670fa9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Dialogs">
+    <Filter Include="Windows\Base\Dialogs">
       <UniqueIdentifier>{132234df-872b-482c-9a13-8472d45234f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Toolbars">
-      <UniqueIdentifier>{5733afd9-17a9-4b63-897a-f99bf833c543}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\DockWindow">
+    <Filter Include="Windows\Base\DockWindow">
       <UniqueIdentifier>{f4b302f1-0c1f-4282-ab20-772fb3a0339b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Extensions">
+      <UniqueIdentifier>{55793813-c5eb-438b-9b7d-0c7c2778d50d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Extensions\Toolbars">
+      <UniqueIdentifier>{5733afd9-17a9-4b63-897a-f99bf833c543}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

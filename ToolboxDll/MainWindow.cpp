@@ -44,6 +44,10 @@ void CMainWindow::Initialize(WIN_HWND hWnd)
 		// Dock the rollupbar to the right-most side of the window by default.
 		DockWindow(m_pRollupbarWindow, 0, EDockState_RightOf, nullptr);
 	}
+
+	{
+		//m_pConsoleWindow = g_pToolbox->GetWindowManager()->SpawnWindow("Console", "Console", 300, 330, 0, 0);
+	}
 }
 
 void CMainWindow::PreloadAssets()
@@ -102,6 +106,7 @@ void CMainWindow::OnClose()
 
 void CMainWindow::OnLogoPressed(IToolboxWindow *pParentWindow)
 {
+	g_pToolbox->CreateLevel("TestLevel");
 }
 
 void CMainWindow::OnMinimizeButton(IToolboxWindow *pParentWindow)

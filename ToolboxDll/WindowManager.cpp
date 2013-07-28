@@ -9,6 +9,8 @@
 #include "EditModeToolbar.h"
 #include "Rollupbar.h"
 
+#include "Console.h"
+
 #include "resource1.h"
 
 CWindowManager::CWindowManager()
@@ -30,6 +32,8 @@ CWindowManager::CWindowManager()
 	///////////////////////////////////
 	REGISTER_WINDOW_TYPE(this, "EditModeToolbar", EWindowType_Window, CEditModeToolbar);
 	REGISTER_WINDOW_TYPE(this, "Rollupbar", EWindowType_Window, CRollupbar);
+
+	REGISTER_WINDOW_TYPE(this, "Console", EWindowType_Window, CConsoleWindow);
 }
 
 CWindowManager::~CWindowManager()

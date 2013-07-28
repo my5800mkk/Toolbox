@@ -35,6 +35,8 @@ private:
 	IToolboxWindow *m_pEditModeToolbar;
 	IToolboxWindow *m_pRollupbarWindow;
 
+	IToolboxWindow *m_pConsoleWindow;
+
 	IButton *m_pLogoButton;
 
 	IButton *m_pMinimizeButton;
