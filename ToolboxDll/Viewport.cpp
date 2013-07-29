@@ -76,7 +76,7 @@ void CViewport::Resize(RECT area)
 
 	// Set up camera
 	m_camera.SetFrustum(width, height, DEG2RAD(60));
-	m_camera.SetMatrix(Matrix34::Create(Vec3(1, 1, 1), Quat(IDENTITY), Vec3(ZERO)));
+	m_camera.SetMatrix(Matrix34::Create(Vec3(1, 1, 1), Quat::CreateRotationXYZ(Ang3(DEG2RAD(-45), 0, 0)), Vec3(50, 50, 150)));
 }
 
 RECT CViewport::GetRect()

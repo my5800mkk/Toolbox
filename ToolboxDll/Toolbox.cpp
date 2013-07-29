@@ -298,6 +298,9 @@ void CToolboxApplication::CreateLevel(const char *levelName)
 
 	gEnv->p3DEngine->CreateTerrain(terrainInfo);
 
+	XmlNodeRef environmentRoot = GetISystem()->LoadXmlFromFile("Toolbox/default_environment_settings.xml");
+	gEnv->p3DEngine->LoadEnvironmentSettingsFromXML(environmentRoot);
+
 	GetISystem()->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_LEVEL_LOAD_END, 0, 0);
 
 	m_bLoadedLevel = true;
